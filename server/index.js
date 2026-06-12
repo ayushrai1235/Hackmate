@@ -1,13 +1,27 @@
 import dotenv from 'dotenv';
-dotenv.config();
+import fs from 'fs';
+import path from 'path';
+
+// Try loading .env.local first, fallback to .env
+if (fs.existsSync(path.resolve('.env.local'))) {
+  dotenv.config({ path: '.env.local' });
+} else {
+  dotenv.config();
+}
+
 import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import rateLimit from 'express-rate-limit';
+import passport from 'passport';
+
 import connectDB from './config/db.js';
 import initSocket from './socket/index.js';
+import './config/passport.js'; // Initialize passport strategies
+
+import authRoutes from './routes/auth.js';
 
 // Initialize database connection
 connectDB();
@@ -35,11 +49,12 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(passport.initialize());
 
 // Rate Limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+  max: 100, // Limit each IP to 100 requests per `window`
   standardHeaders: true,
   legacyHeaders: false,
 });
@@ -47,6 +62,9 @@ app.use(limiter);
 
 // Make io accessible in routers if needed
 app.set('io', io);
+
+// Routes
+app.use('/api/auth', authRoutes);
 
 // Basic Route for testing
 app.get('/api/health', (req, res) => {
