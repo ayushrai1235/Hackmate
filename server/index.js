@@ -12,6 +12,8 @@ import initSocket from './socket/index.js';
 import './config/passport.js'; // Initialize passport strategies
 
 import authRoutes from './routes/auth.js';
+import userRoutes from './routes/users.js';
+import uploadRoutes from './routes/upload.js';
 
 // Initialize database connection
 connectDB();
@@ -55,6 +57,8 @@ app.set('io', io);
 
 // Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // Basic Route for testing
 app.get('/api/health', (req, res) => {
