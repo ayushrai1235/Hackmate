@@ -1,14 +1,4 @@
-import dotenv from 'dotenv';
-import fs from 'fs';
-import path from 'path';
-
-// Try loading .env.local first, fallback to .env
-if (fs.existsSync(path.resolve('.env.local'))) {
-  dotenv.config({ path: '.env.local' });
-} else {
-  dotenv.config();
-}
-
+import './config/env.js'; // Must be first to load env variables before other imports evaluate
 import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';

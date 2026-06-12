@@ -50,7 +50,6 @@ userSchema.set('toJSON', {
 });
 
 // Indexes for common queries
-userSchema.index({ email: 1 });
 userSchema.index({ googleId: 1 });
 userSchema.index({ githubId: 1 });
 
