@@ -9,4 +9,4 @@ const initSocket = (io) => {
   });
 };
 
-module.exports = initSocket;
+export default initSocket;

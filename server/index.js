@@ -1,12 +1,13 @@
-require('dotenv').config();
-const express = require('express');
-const http = require('http');
-const { Server } = require('socket.io');
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-const rateLimit = require('express-rate-limit');
-const connectDB = require('./config/db');
-const initSocket = require('./socket/index');
+import dotenv from 'dotenv';
+dotenv.config();
+import express from 'express';
+import http from 'http';
+import { Server } from 'socket.io';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import rateLimit from 'express-rate-limit';
+import connectDB from './config/db.js';
+import initSocket from './socket/index.js';
 
 // Initialize database connection
 connectDB();
