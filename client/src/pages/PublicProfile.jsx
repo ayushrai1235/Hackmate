@@ -6,6 +6,8 @@ import {
   FaTrophy, FaArrowLeft, FaExternalLinkAlt, FaStar, FaCodeBranch
 } from 'react-icons/fa';
 import api from '../services/api';
+import GitHubBadge from '../components/GitHubBadge';
+import GitHubStats from '../components/GitHubStats';
 
 const PublicProfile = () => {
   const { id } = useParams();
@@ -130,11 +132,12 @@ const PublicProfile = () => {
 
               {/* Title & Info tags */}
               <div className="text-center md:text-left flex-grow">
-                <h1 className="text-3xl font-extrabold text-white flex items-center justify-center md:justify-start gap-3">
+                <h1 className="text-3xl font-extrabold text-white flex flex-wrap items-center justify-center md:justify-start gap-3">
                   {user.name}
                   <span className="text-[10px] uppercase tracking-wider font-bold bg-emerald-500/20 text-emerald-400 px-2.5 py-0.5 rounded-full border border-emerald-500/30">
                     {user.availability}
                   </span>
+                  <GitHubBadge score={user.githubScore} />
                 </h1>
                 
                 <p className="text-sm text-slate-400 mt-1 flex flex-wrap items-center justify-center md:justify-start gap-x-3 gap-y-1">
@@ -294,22 +297,13 @@ const PublicProfile = () => {
                 {user.githubUsername && (
                   <div className="space-y-6">
                     
-                    {/* GitHub Numbers Grid */}
+                    {/* GitHub Stats Panel */}
                     {user.githubData && (
-                      <div className="grid grid-cols-3 gap-4">
-                        <div className="bg-slate-955/60 border border-slate-800 p-4 rounded-2xl text-center">
-                          <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-500">Repositories</span>
-                          <span className="text-xl font-black text-slate-100">{user.githubData.repos || 0}</span>
-                        </div>
-                        <div className="bg-slate-955/60 border border-slate-800 p-4 rounded-2xl text-center">
-                          <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-500">Total Stars</span>
-                          <span className="text-xl font-black text-slate-100">{user.githubData.stars || 0}</span>
-                        </div>
-                        <div className="bg-slate-955/60 border border-slate-800 p-4 rounded-2xl text-center">
-                          <span className="block text-[10px] font-bold uppercase tracking-wider text-slate-500">GitHub Score</span>
-                          <span className="text-xl font-black text-blue-400">{user.githubScore || 0}</span>
-                        </div>
-                      </div>
+                      <GitHubStats
+                        githubData={user.githubData}
+                        githubScore={user.githubScore}
+                        username={user.githubUsername}
+                      />
                     )}
 
                     {/* Repository Showcase (Projects list) */}

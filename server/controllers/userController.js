@@ -1,52 +1,24 @@
-import axios from 'axios';
 import User from '../models/User.js';
 import Team from '../models/Team.js';
+import { getGitHubStats } from '../services/githubService.js';
 
-// Helper to fetch GitHub data & calculate score
+// Helper to fetch GitHub data & calculate score using githubService
 const fetchGithubStats = async (username) => {
   if (!username) return null;
   try {
-    const headers = {};
-    if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
-      const auth = Buffer.from(`${process.env.GITHUB_CLIENT_ID}:${process.env.GITHUB_CLIENT_SECRET}`).toString('base64');
-      headers['Authorization'] = `Basic ${auth}`;
-    }
-
-    // Fetch user profile
-    const userUrl = `https://api.github.com/users/${username}`;
-    const userRes = await axios.get(userUrl, { headers });
-    const profile = userRes.data;
-
-    // Fetch user repos (max 100)
-    const reposUrl = `https://api.github.com/users/${username}/repos?per_page=100&sort=updated`;
-    const reposRes = await axios.get(reposUrl, { headers });
-    const repos = reposRes.data || [];
-
-    let totalStars = 0;
-    const languages = {};
-
-    repos.forEach((repo) => {
-      totalStars += repo.stargazers_count || 0;
-      if (repo.language) {
-        languages[repo.language] = (languages[repo.language] || 0) + 1;
-      }
-    });
-
-    const reposCount = profile.public_repos || 0;
-    const followers = profile.followers || 0;
-    const githubScore = (reposCount * 2) + (totalStars * 5) + (followers * 3);
-
+    const stats = await getGitHubStats(username);
+    if (!stats) return null;
     return {
-      githubScore,
+      githubScore: stats.githubScore,
       githubData: {
-        repos: reposCount,
-        stars: totalStars,
-        languages,
-        contributions: (profile.public_gists || 0) + reposCount + followers,
+        repos: stats.repos,
+        stars: stats.stars,
+        languages: stats.languages,
+        contributions: stats.contributions,
       },
     };
   } catch (error) {
-    console.error(`Error fetching GitHub data for ${username}:`, error.message);
+    console.error(`Error fetching GitHub data in helper for ${username}:`, error.message);
     return null;
   }
 };
@@ -202,5 +174,21 @@ export const getUserProfile = async (req, res) => {
   } catch (error) {
     console.error('Error retrieving public user profile:', error);
     return res.status(500).json({ message: 'Error retrieving user profile', error: error.message });
+  }
+};
+
+// GET /api/users
+export const getDiscoverUsers = async (req, res) => {
+  try {
+    const currentUserId = req.user._id;
+    const users = await User.find({
+      _id: { $ne: currentUserId },
+      onboardingComplete: true,
+      profileVisibility: true,
+    }).select('-password');
+    return res.status(200).json(users);
+  } catch (error) {
+    console.error('Fetch discover users error:', error);
+    return res.status(500).json({ message: 'Error retrieving discover users', error: error.message });
   }
 };

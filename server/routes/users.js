@@ -5,12 +5,14 @@ import {
   updateMe,
   getGithubStats,
   getUserProfile,
+  getDiscoverUsers,
 } from '../controllers/userController.js';
 import { isAuth } from '../middleware/auth.js';
 
 const router = express.Router();
 
 // Protected routes
+router.get('/', isAuth, getDiscoverUsers);
 router.get('/me', isAuth, getMe);
 router.put('/onboarding', isAuth, completeOnboarding);
 router.put('/me', isAuth, updateMe);
