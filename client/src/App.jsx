@@ -9,6 +9,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Onboarding from './pages/Onboarding';
 import Discover from './pages/Discover';
+import Profile from './pages/Profile';
+import PublicProfile from './pages/PublicProfile';
 
 function App() {
   return (
@@ -24,7 +26,8 @@ function App() {
             {/* Protected routes requiring onboarding */}
             <Route element={<ProtectedRoute requireOnboarding={true} />}>
               <Route path="/discover" element={<Discover />} />
-              {/* Add more protected routes here */}
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/profile/:id" element={<PublicProfile />} />
             </Route>
 
             {/* Protected route NOT requiring onboarding (for the onboarding flow itself) */}

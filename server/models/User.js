@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema(
     bio: { type: String },
     college: { type: String },
     city: { type: String },
+    yearOfStudy: { type: String },
     role: { type: String, enum: ['Developer', 'Designer', 'Product Manager', 'Other'] },
     experienceLevel: { type: String, enum: ['Beginner', 'Intermediate', 'Advanced'] },
     skills: [{ type: String }],
