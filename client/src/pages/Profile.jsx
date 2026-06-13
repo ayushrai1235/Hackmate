@@ -171,7 +171,13 @@ const Profile = () => {
               onClick={() => window.location.href = '/discover'}
               className="text-xs font-semibold text-slate-300 bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-lg transition-all"
             >
-              Discover Teams
+              Find Hackers
+            </button>
+            <button
+              onClick={() => window.location.href = '/teams'}
+              className="text-xs font-semibold text-slate-300 bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-lg transition-all"
+            >
+              Teams
             </button>
             <button
               onClick={logout}

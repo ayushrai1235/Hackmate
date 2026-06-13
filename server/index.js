@@ -16,6 +16,7 @@ import userRoutes from './routes/users.js';
 import uploadRoutes from './routes/upload.js';
 import githubRoutes from './routes/github.js';
 import swipeRoutes from './routes/swipes.js';
+import teamRoutes from './routes/teams.js';
 
 // Initialize database connection
 connectDB();
@@ -63,6 +64,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/github', githubRoutes);
 app.use('/api/swipes', swipeRoutes);
+app.use('/api/teams', teamRoutes);
 
 // Basic Route for testing
 app.get('/api/health', (req, res) => {

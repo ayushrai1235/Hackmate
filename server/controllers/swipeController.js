@@ -1,69 +1,6 @@
 import { User, Swipe, Match, Chat, Notification, Report } from '../models/index.js';
 import mongoose from 'mongoose';
-
-// ── Helper: compute match score between two users ──
-// Based on: skills overlap + lookingFor ↔ role alignment + techStack overlap
-const computeMatchScore = (currentUser, targetUser) => {
-  let score = 0;
-  let maxScore = 0;
-
-  // 1. Skills overlap (weight: 40)
-  if (currentUser.skills?.length && targetUser.skills?.length) {
-    const overlap = currentUser.skills.filter((s) =>
-      targetUser.skills.map((x) => x.toLowerCase()).includes(s.toLowerCase())
-    ).length;
-    const union = new Set([
-      ...currentUser.skills.map((s) => s.toLowerCase()),
-      ...targetUser.skills.map((s) => s.toLowerCase()),
-    ]).size;
-    score += union > 0 ? (overlap / union) * 40 : 0;
-  }
-  maxScore += 40;
-
-  // 2. LookingFor ↔ target's role match (weight: 30)
-  // If current user's lookingFor includes the target's role, strong signal
-  if (currentUser.lookingFor?.length && targetUser.role) {
-    const lookingNorm = currentUser.lookingFor.map((l) => l.toLowerCase());
-    if (lookingNorm.includes(targetUser.role.toLowerCase())) {
-      score += 30;
-    } else {
-      // Partial: check if target's lookingFor includes current user's role
-      const targetLooking = (targetUser.lookingFor || []).map((l) => l.toLowerCase());
-      if (currentUser.role && targetLooking.includes(currentUser.role.toLowerCase())) {
-        score += 15; // half credit for reverse match
-      }
-    }
-  }
-  maxScore += 30;
-
-  // 3. TechStack overlap (weight: 20)
-  if (currentUser.techStack?.length && targetUser.techStack?.length) {
-    const overlap = currentUser.techStack.filter((t) =>
-      targetUser.techStack.map((x) => x.toLowerCase()).includes(t.toLowerCase())
-    ).length;
-    const union = new Set([
-      ...currentUser.techStack.map((t) => t.toLowerCase()),
-      ...targetUser.techStack.map((t) => t.toLowerCase()),
-    ]).size;
-    score += union > 0 ? (overlap / union) * 20 : 0;
-  }
-  maxScore += 20;
-
-  // 4. Experience-level compatibility (weight: 10)
-  // Same level or adjacent levels score higher
-  const levels = ['beginner', 'intermediate', 'advanced'];
-  if (currentUser.experienceLevel && targetUser.experienceLevel) {
-    const curIdx = levels.indexOf(currentUser.experienceLevel.toLowerCase());
-    const tgtIdx = levels.indexOf(targetUser.experienceLevel.toLowerCase());
-    if (curIdx >= 0 && tgtIdx >= 0) {
-      const diff = Math.abs(curIdx - tgtIdx);
-      score += diff === 0 ? 10 : diff === 1 ? 6 : 2;
-    }
-  }
-  maxScore += 10;
-
-  return maxScore > 0 ? Math.round((score / maxScore) * 100) : 0;
-};
+import { computeMatchScore } from '../services/matchmakingService.js';
 
 // ── Helper: reset super likes if past midnight ──
 const resetSuperLikesIfNeeded = async (user) => {
@@ -130,10 +67,14 @@ export const getFeed = async (req, res) => {
 
     // Compute match scores
     const currentUser = await User.findById(currentUserId);
-    const usersWithScores = users.map((u) => ({
-      ...u.toJSON(),
-      matchScore: computeMatchScore(currentUser, u),
-    }));
+    const usersWithScores = users.map((u) => {
+      const { score, reasons } = computeMatchScore(currentUser, u);
+      return {
+        ...u.toJSON(),
+        matchScore: score,
+        matchReasons: reasons,
+      };
+    });
 
     return res.status(200).json({
       users: usersWithScores,
