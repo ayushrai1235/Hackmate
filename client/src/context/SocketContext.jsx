@@ -15,6 +15,7 @@ export const SocketProvider = ({ children }) => {
       // Connect to socket when user is logged in
       newSocket = io(import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000', {
         withCredentials: true,
+        auth: { userId: user._id },
       });
 
       setSocket(newSocket);

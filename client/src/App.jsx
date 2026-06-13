@@ -11,6 +11,7 @@ import Onboarding from './pages/Onboarding';
 import Discover from './pages/Discover';
 import Profile from './pages/Profile';
 import PublicProfile from './pages/PublicProfile';
+import InterestedInYou from './pages/InterestedInYou';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
               <Route path="/discover" element={<Discover />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/profile/:id" element={<PublicProfile />} />
+              <Route path="/interested" element={<InterestedInYou />} />
             </Route>
 
             {/* Protected route NOT requiring onboarding (for the onboarding flow itself) */}
