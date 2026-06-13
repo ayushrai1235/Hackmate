@@ -9,6 +9,8 @@ import {
 import { AuthContext } from '../context/AuthContext';
 import { uploadAvatar } from '../services/uploadService';
 import api from '../services/api';
+import GitHubBadge from '../components/GitHubBadge';
+import GitHubStats from '../components/GitHubStats';
 
 const POPULAR_SKILLS = [
   'Frontend Development', 'Backend Development', 'Fullstack Development',
@@ -234,11 +236,12 @@ const Profile = () => {
                 </div>
 
                 <div className="text-center sm:text-left translate-y-3">
-                  <h1 className="text-2xl font-bold text-white flex items-center justify-center sm:justify-start gap-2">
+                  <h1 className="text-2xl font-bold text-white flex flex-wrap items-center justify-center sm:justify-start gap-2">
                     {user.name}
                     <span className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded-full ${user.profileVisibility ? 'bg-blue-500/20 text-blue-400' : 'bg-slate-800 text-slate-500'}`}>
                       {user.profileVisibility ? 'Public' : 'Private'}
                     </span>
+                    <GitHubBadge score={user.githubScore} />
                   </h1>
                   <p className="text-sm text-slate-400 flex items-center justify-center sm:justify-start gap-1.5 mt-0.5">
                     <FaBriefcase className="text-slate-500 text-xs" /> {user.role} &bull; {user.experienceLevel}
@@ -610,58 +613,11 @@ const Profile = () => {
                       <p className="text-[10px] text-slate-500 mt-1">Changing username will auto-fetch and sync stats upon saving.</p>
                     </div>
                   ) : user.githubUsername ? (
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-3">
-                        <span className="text-xs text-slate-400">Connected account:</span>
-                        <a 
-                          href={`https://github.com/${user.githubUsername}`} 
-                          target="_blank" 
-                          rel="noreferrer"
-                          className="text-sm font-semibold text-blue-400 hover:underline flex items-center gap-1"
-                        >
-                          @{user.githubUsername}
-                        </a>
-                        <span className="text-xs bg-blue-500/25 text-blue-400 px-2 py-0.5 rounded-full font-bold ml-auto">
-                          Score: {user.githubScore || 0}
-                        </span>
-                      </div>
-
-                      {user.githubData && (
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                          <div className="bg-slate-900/60 border border-slate-850 p-3 rounded-xl text-center">
-                            <span className="block text-[10px] uppercase font-bold text-slate-500 tracking-wider">Repos</span>
-                            <span className="text-lg font-bold text-slate-100">{user.githubData.repos || 0}</span>
-                          </div>
-                          <div className="bg-slate-900/60 border border-slate-850 p-3 rounded-xl text-center">
-                            <span className="block text-[10px] uppercase font-bold text-slate-500 tracking-wider">Stars</span>
-                            <span className="text-lg font-bold text-slate-100">{user.githubData.stars || 0}</span>
-                          </div>
-                          <div className="bg-slate-900/60 border border-slate-850 p-3 rounded-xl text-center">
-                            <span className="block text-[10px] uppercase font-bold text-slate-500 tracking-wider">Languages</span>
-                            <span className="text-lg font-bold text-slate-100">
-                              {user.githubData.languages ? Object.keys(user.githubData.languages).length : 0}
-                            </span>
-                          </div>
-                          <div className="bg-slate-900/60 border border-slate-850 p-3 rounded-xl text-center">
-                            <span className="block text-[10px] uppercase font-bold text-slate-500 tracking-wider">Rank Score</span>
-                            <span className="text-lg font-bold text-slate-100">{user.githubScore || 0}</span>
-                          </div>
-                        </div>
-                      )}
-
-                      {user.githubData?.languages && Object.keys(user.githubData.languages).length > 0 && (
-                        <div>
-                          <span className="text-xs text-slate-400 block mb-1">Top Language Types</span>
-                          <div className="flex flex-wrap gap-1">
-                            {Object.keys(user.githubData.languages).slice(0, 5).map(l => (
-                              <span key={l} className="bg-slate-900 text-slate-300 text-[10px] px-2 py-0.5 rounded border border-slate-850">
-                                {l}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
+                    <GitHubStats
+                      githubData={user.githubData}
+                      githubScore={user.githubScore}
+                      username={user.githubUsername}
+                    />
                   ) : (
                     <div className="text-center py-4 bg-slate-900/30 border border-slate-850 rounded-xl">
                       <p className="text-xs text-slate-500 italic">No GitHub account linked. Toggle edit mode to link your account.</p>

@@ -10,6 +10,8 @@ import {
 import { AuthContext } from '../context/AuthContext';
 import { uploadAvatar } from '../services/uploadService';
 import api from '../services/api';
+import GitHubStats from '../components/GitHubStats';
+import GitHubBadge from '../components/GitHubBadge';
 
 const POPULAR_SKILLS = [
   'Frontend Development', 'Backend Development', 'Fullstack Development',
@@ -99,7 +101,7 @@ const Onboarding = () => {
     setGithubError('');
     setGithubStats(null);
     try {
-      const res = await api.get(`/users/github-stats/${formData.githubUsername.trim()}`);
+      const res = await api.get(`/github/${formData.githubUsername.trim()}`);
       setGithubStats(res.data);
     } catch (error) {
       setGithubError(error.response?.data?.message || 'Failed to fetch GitHub stats. Verify username.');
@@ -634,41 +636,15 @@ const Onboarding = () => {
 
                     {/* GitHub visual stats preview card */}
                     {githubStats && (
-                      <div className="mt-4 bg-slate-950/60 border border-slate-800 rounded-xl p-4 space-y-3">
-                        <div className="flex justify-between items-center border-b border-slate-800 pb-2">
-                          <span className="text-sm font-bold text-white flex items-center gap-1.5">
-                            <FaGithub className="text-slate-300" /> Sync Success
-                          </span>
-                          <span className="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full font-semibold">
-                            Score: {githubStats.githubScore}
-                          </span>
+                      <div className="mt-4">
+                        <div className="mb-4">
+                          <GitHubBadge score={githubStats.githubScore} />
                         </div>
-                        <div className="grid grid-cols-3 gap-2 text-center text-xs">
-                          <div className="bg-slate-900/60 p-2 rounded-lg">
-                            <span className="block text-slate-500">Repos</span>
-                            <span className="text-sm font-bold text-slate-200">{githubStats.githubData.repos}</span>
-                          </div>
-                          <div className="bg-slate-900/60 p-2 rounded-lg">
-                            <span className="block text-slate-500">Stars</span>
-                            <span className="text-sm font-bold text-slate-200">{githubStats.githubData.stars}</span>
-                          </div>
-                          <div className="bg-slate-900/60 p-2 rounded-lg">
-                            <span className="block text-slate-500">Contributions</span>
-                            <span className="text-sm font-bold text-slate-200">{githubStats.githubData.contributions}</span>
-                          </div>
-                        </div>
-                        {githubStats.githubData.languages && Object.keys(githubStats.githubData.languages).length > 0 && (
-                          <div>
-                            <span className="text-[10px] uppercase font-bold tracking-wider text-slate-500 block mb-1.5">Languages Detected:</span>
-                            <div className="flex flex-wrap gap-1">
-                              {Object.keys(githubStats.githubData.languages).slice(0, 4).map(lang => (
-                                <span key={lang} className="bg-slate-800 text-slate-300 text-[10px] px-2 py-0.5 rounded">
-                                  {lang}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        )}
+                        <GitHubStats
+                          githubData={githubStats}
+                          githubScore={githubStats.githubScore}
+                          username={githubStats.username}
+                        />
                       </div>
                     )}
                   </div>
