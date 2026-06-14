@@ -203,6 +203,12 @@ const Discover = () => {
 
         <div className="flex items-center gap-2">
           <button
+            onClick={() => navigate('/teams')}
+            className="text-xs font-semibold text-slate-300 hover:text-white bg-slate-900 border border-slate-800 px-3 py-2 rounded-xl transition-all"
+          >
+            Teams
+          </button>
+          <button
             onClick={() => navigate('/interested')}
             className="text-xs font-semibold text-emerald-400 hover:text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 px-3 py-2 rounded-xl transition-all flex items-center gap-1.5"
           >

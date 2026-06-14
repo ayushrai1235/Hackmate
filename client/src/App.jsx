@@ -12,6 +12,9 @@ import Discover from './pages/Discover';
 import Profile from './pages/Profile';
 import PublicProfile from './pages/PublicProfile';
 import InterestedInYou from './pages/InterestedInYou';
+import Teams from './pages/Teams';
+import CreateTeam from './pages/CreateTeam';
+import TeamDetail from './pages/TeamDetail';
 
 function App() {
   return (
@@ -30,6 +33,10 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/profile/:id" element={<PublicProfile />} />
               <Route path="/interested" element={<InterestedInYou />} />
+              <Route path="/teams" element={<Teams />} />
+              <Route path="/teams/create" element={<CreateTeam />} />
+              <Route path="/teams/:id" element={<TeamDetail />} />
+              <Route path="/teams/:id/edit" element={<CreateTeam isEdit={true} />} />
             </Route>
 
             {/* Protected route NOT requiring onboarding (for the onboarding flow itself) */}
