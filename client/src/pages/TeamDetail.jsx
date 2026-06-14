@@ -10,6 +10,7 @@ import teamService from '../services/teamService';
 import api from '../services/api';
 import TeamHealthWidget from '../components/TeamHealthWidget';
 import GitHubBadge from '../components/GitHubBadge';
+import Navbar from '../components/Navbar';
 
 const TeamDetail = () => {
   const { id: teamId } = useParams();
@@ -61,23 +62,35 @@ const TeamDetail = () => {
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center bg-slate-950 text-white">
-        <FaSpinner className="animate-spin text-4xl text-blue-500" />
+      <div className="flex h-screen items-center justify-center bg-slate-950 text-white relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none" />
+        <div className="flex flex-col items-center gap-4 relative z-10">
+          <FaSpinner className="animate-spin text-4xl text-indigo-500" />
+          <p className="text-xs font-outfit font-semibold tracking-wider text-slate-400">Loading Team Intel...</p>
+        </div>
       </div>
     );
   }
 
   if (error || !team) {
     return (
-      <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col items-center justify-center space-y-4">
-        <FaExclamationCircle className="text-red-500 text-5xl" />
-        <h2 className="text-xl font-bold">{error || 'Team not found'}</h2>
-        <button
-          onClick={() => navigate('/teams')}
-          className="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded-xl transition-all"
-        >
-          Back to Teams
-        </button>
+      <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col items-center justify-center space-y-6 relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-rose-500/10 rounded-full blur-[100px] pointer-events-none" />
+        <div className="glass-panel border-rose-500/10 max-w-md w-full mx-4 p-8 rounded-3xl text-center space-y-5 relative z-10">
+          <div className="w-16 h-16 bg-rose-500/10 border border-rose-500/20 text-rose-400 rounded-2xl flex items-center justify-center mx-auto shadow-lg shadow-rose-500/5">
+            <FaExclamationCircle className="text-2xl" />
+          </div>
+          <h2 className="text-xl font-cabinet font-black tracking-tight text-white">{error || 'Team not found'}</h2>
+          <p className="text-xs text-slate-400 font-sans leading-relaxed">
+            The team you are looking for might have been deleted, or you might not have authorization to view it.
+          </p>
+          <button
+            onClick={() => navigate('/teams')}
+            className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-outfit font-black py-3 px-4 rounded-xl transition-all duration-300 shadow-md shadow-indigo-500/10 active:scale-[0.98]"
+          >
+            Back to Team Discovery
+          </button>
+        </div>
       </div>
     );
   }

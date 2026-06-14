@@ -187,10 +187,128 @@ export const getDiscoverUsers = async (req, res) => {
       _id: { $ne: currentUserId },
       onboardingComplete: true,
       profileVisibility: true,
-    }).select('-password');
+      isBanned: { $ne: true },
+    }).select('-passwordHash');
     return res.status(200).json(users);
   } catch (error) {
     console.error('Fetch discover users error:', error);
     return res.status(500).json({ message: 'Error retrieving discover users', error: error.message });
   }
 };
+
+
+// GET /api/users/search
+export const searchUsers = async (req, res) => {
+  try {
+    const currentUserId = req.user._id;
+    const {
+      role,
+      skills,
+      college,
+      city,
+      experienceLevel,
+      minGithubScore,
+      techStack,
+      lookingFor,
+      availability,
+      page = 1,
+      limit = 10,
+    } = req.query;
+
+    const query = {
+      _id: { $ne: currentUserId },
+      onboardingComplete: true,
+      profileVisibility: true,
+      isBanned: { $ne: true },
+    };
+
+    // Filter by Role (multi-select)
+    if (role) {
+      const rolesArray = Array.isArray(role)
+        ? role
+        : role.split(',').map(r => r.trim()).filter(Boolean);
+      if (rolesArray.length > 0) {
+        query.role = { $in: rolesArray };
+      }
+    }
+
+    // Filter by Skills (multi-select)
+    if (skills) {
+      const skillsArray = Array.isArray(skills)
+        ? skills
+        : skills.split(',').map(s => s.trim()).filter(Boolean);
+      if (skillsArray.length > 0) {
+        query.skills = { $in: skillsArray.map(s => new RegExp(`^${s}$`, 'i')) };
+      }
+    }
+
+    // Filter by Tech Stack (multi-select)
+    if (techStack) {
+      const techStackArray = Array.isArray(techStack)
+        ? techStack
+        : techStack.split(',').map(t => t.trim()).filter(Boolean);
+      if (techStackArray.length > 0) {
+        query.techStack = { $in: techStackArray.map(t => new RegExp(`^${t}$`, 'i')) };
+      }
+    }
+
+    // Filter by Looking For (multi-select)
+    if (lookingFor) {
+      const lookingForArray = Array.isArray(lookingFor)
+        ? lookingFor
+        : lookingFor.split(',').map(l => l.trim()).filter(Boolean);
+      if (lookingForArray.length > 0) {
+        query.lookingFor = { $in: lookingForArray.map(l => new RegExp(`^${l}$`, 'i')) };
+      }
+    }
+
+    // Filter by College (text)
+    if (college) {
+      query.college = { $regex: college.trim(), $options: 'i' };
+    }
+
+    // Filter by City (text)
+    if (city) {
+      query.city = { $regex: city.trim(), $options: 'i' };
+    }
+
+    // Filter by Experience Level
+    if (experienceLevel) {
+      query.experienceLevel = experienceLevel;
+    }
+
+    // Filter by GitHub Score range
+    if (minGithubScore !== undefined && minGithubScore !== '') {
+      query.githubScore = { $gte: Number(minGithubScore) };
+    }
+
+    // Filter by Availability
+    if (availability) {
+      query.availability = availability;
+    }
+
+    const pageNum = parseInt(page, 10) || 1;
+    const limitNum = parseInt(limit, 10) || 10;
+    const skip = (pageNum - 1) * limitNum;
+
+    const totalUsers = await User.countDocuments(query);
+    const users = await User.find(query)
+      .select('-passwordHash')
+      .skip(skip)
+      .limit(limitNum)
+      .sort({ githubScore: -1, lastActive: -1 });
+
+    const totalPages = Math.ceil(totalUsers / limitNum);
+
+    return res.status(200).json({
+      users,
+      totalPages,
+      currentPage: pageNum,
+      totalUsers,
+    });
+  } catch (error) {
+    console.error('Search users error:', error);
+    return res.status(500).json({ message: 'Error searching users', error: error.message });
+  }
+};
+

@@ -5,7 +5,7 @@ import { SocketContext } from '../context/SocketContext';
 import { getChats } from '../services/chatService';
 import ChatList from '../components/ChatList';
 import ChatRoom from '../components/ChatRoom';
-import NotificationBell from '../components/NotificationBell';
+import Navbar from '../components/Navbar';
 
 const Chat = () => {
   const navigate = useNavigate();
@@ -191,61 +191,29 @@ const Chat = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col overflow-hidden">
-      {/* Navbar Banner */}
-      <header className="border-b border-slate-900 bg-slate-950/80 backdrop-blur-md sticky top-0 z-40 px-4 sm:px-6 py-3 flex items-center justify-between shrink-0">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-emerald-600 flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/20">
-            H
-          </div>
-          <span className="font-extrabold text-lg bg-gradient-to-r from-blue-400 via-indigo-300 to-emerald-400 bg-clip-text text-transparent">
-            HackMate AI
-          </span>
-        </div>
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col overflow-hidden relative">
+      {/* Decorative Blur Backgrounds */}
+      <div className="absolute top-20 left-10 w-96 h-96 bg-indigo-500/5 rounded-full filter blur-3xl pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-96 h-96 bg-emerald-500/5 rounded-full filter blur-3xl pointer-events-none" />
 
-        <div className="flex items-center gap-2">
-          <NotificationBell />
-          <button
-            onClick={() => navigate('/discover')}
-            className="text-xs font-semibold text-slate-300 hover:text-white bg-slate-900 border border-slate-800 px-3 py-2 rounded-xl transition-all"
-          >
-            Find Hackers
-          </button>
-          <button
-            onClick={() => navigate('/teams')}
-            className="text-xs font-semibold text-slate-300 hover:text-white bg-slate-900 border border-slate-800 px-3 py-2 rounded-xl transition-all"
-          >
-            Teams
-          </button>
-          <button
-            onClick={() => navigate('/interested')}
-            className="text-xs font-semibold text-slate-300 hover:text-white bg-slate-900 border border-slate-800 px-3 py-2 rounded-xl transition-all"
-          >
-            Interested
-          </button>
-          <button
-            onClick={() => navigate('/profile')}
-            className="text-xs font-semibold text-slate-300 hover:text-white bg-slate-900 border border-slate-800 px-3 py-2 rounded-xl transition-all"
-          >
-            Profile
-          </button>
-        </div>
-      </header>
+      <Navbar />
 
       {/* App Body Viewport */}
-      <div className="flex-1 flex overflow-hidden max-w-7xl w-full mx-auto p-4 md:p-6 gap-6">
+      <div className="flex-grow flex overflow-hidden max-w-7xl w-full mx-auto p-4 md:p-6 gap-6 relative z-10">
         {loading ? (
-          <div className="flex-1 flex items-center justify-center">
-            <div className="flex flex-col items-center gap-3">
-              <div className="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin" />
-              <p className="text-sm text-slate-400 font-medium">Loading conversations...</p>
+          <div className="flex-grow flex items-center justify-center glass-panel rounded-3xl border border-white/5">
+            <div className="flex flex-col items-center gap-4">
+              <div className="relative flex items-center justify-center">
+                <div className="w-10 h-10 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin" />
+              </div>
+              <p className="text-xs font-outfit text-slate-400 font-semibold tracking-wider uppercase">Loading conversations...</p>
             </div>
           </div>
         ) : (
-          <div className="flex-1 flex bg-slate-950/40 border border-slate-900 rounded-3xl overflow-hidden backdrop-blur-sm shadow-xl">
+          <div className="flex-grow flex glass-panel border border-white/5 rounded-3xl overflow-hidden shadow-2xl relative bg-slate-950/20">
             {/* Chats Sidebar */}
             <div
-              className={`w-full md:w-80 border-r border-slate-900 shrink-0 ${
+              className={`w-full md:w-80 border-r border-white/5 shrink-0 bg-slate-950/40 backdrop-blur-md ${
                 mobileView === 'room' ? 'hidden md:block' : 'block'
               }`}
             >
@@ -259,17 +227,17 @@ const Chat = () => {
 
             {/* Chat Conversation Viewport */}
             <div
-              className={`flex-1 flex flex-col overflow-hidden ${
+              className={`flex-grow flex flex-col overflow-hidden bg-slate-950/10 ${
                 mobileView === 'list' ? 'hidden md:flex' : 'flex'
               }`}
             >
               {selectedChat ? (
-                <div className="flex-1 flex flex-col overflow-hidden relative">
+                <div className="flex-grow flex flex-col overflow-hidden relative">
                   {/* Mobile Back Button Overlay inside room header */}
                   {mobileView === 'room' && (
                     <button
                       onClick={handleBackToList}
-                      className="absolute top-[18px] left-4 md:hidden z-50 flex items-center justify-center p-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-slate-700 transition-all"
+                      className="absolute top-[18px] left-4 md:hidden z-50 flex items-center justify-center p-1.5 rounded-xl bg-slate-900 border border-white/5 text-slate-400 hover:text-white hover:bg-slate-800 transition-all cursor-pointer"
                     >
                       <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -288,16 +256,16 @@ const Chat = () => {
                   />
                 </div>
               ) : (
-                <div className="flex-1 flex items-center justify-center p-6 text-center">
-                  <div className="max-w-xs flex flex-col items-center gap-4">
-                    <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/10 flex items-center justify-center text-indigo-400">
-                      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="flex-grow flex items-center justify-center p-6 text-center bg-slate-950/30">
+                  <div className="max-w-xs flex flex-col items-center gap-5">
+                    <div className="w-16 h-16 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 shadow-lg shadow-indigo-500/5">
+                      <svg className="w-8 h-8 animate-pulse text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                       </svg>
                     </div>
                     <div>
-                      <h4 className="font-bold text-white mb-1">Your Inbox</h4>
-                      <p className="text-xs text-slate-500 leading-relaxed font-medium">
+                      <h4 className="font-cabinet font-black text-white text-base mb-1.5">Your Inbox</h4>
+                      <p className="text-xs font-sans text-slate-400 leading-relaxed">
                         Select a conversation from the sidebar to view messages, share designs, or coordinate with your teammates.
                       </p>
                     </div>

@@ -58,6 +58,9 @@ export const login = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (user && user.passwordHash && (await bcrypt.compare(password, user.passwordHash))) {
+      if (user.isBanned) {
+        return res.status(403).json({ message: 'Your account has been banned' });
+      }
       const accessToken = generateAccessToken(user._id);
       generateRefreshToken(res, user._id);
 
@@ -138,6 +141,10 @@ export const getMe = async (req, res) => {
 export const oauthCallback = (req, res) => {
   if (!req.user) {
     return res.redirect(`${process.env.CLIENT_URL}/login?error=auth_failed`);
+  }
+
+  if (req.user.isBanned) {
+    return res.redirect(`${process.env.CLIENT_URL}/login?error=user_banned`);
   }
 
   // Generate tokens

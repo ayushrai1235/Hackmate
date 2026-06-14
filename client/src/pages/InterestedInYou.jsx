@@ -15,7 +15,7 @@ import {
 } from 'react-icons/fa';
 import swipeService from '../services/swipeService';
 import { AuthContext } from '../context/AuthContext';
-import NotificationBell from '../components/NotificationBell';
+import Navbar from '../components/Navbar';
 
 const InterestedInYou = () => {
   const { user } = useContext(AuthContext);
@@ -68,84 +68,58 @@ const InterestedInYou = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
-      {/* ── Header ── */}
-      <header className="border-b border-slate-900 bg-slate-950/80 backdrop-blur-md sticky top-0 z-40 px-4 sm:px-6 py-3 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => navigate('/discover')}
-            className="text-slate-400 hover:text-white transition-colors p-1.5"
-          >
-            <FaArrowLeft className="text-sm" />
-          </button>
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-rose-500 to-pink-600 flex items-center justify-center text-white shadow-lg shadow-rose-500/20">
-              <FaHeart className="text-xs" />
-            </div>
-            <span className="font-extrabold text-lg bg-gradient-to-r from-rose-400 via-pink-300 to-purple-400 bg-clip-text text-transparent">
-              Interested In You
-            </span>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <span className="text-[10px] text-slate-500 bg-slate-900 border border-slate-800 px-2.5 py-1 rounded-lg font-mono">
-            {interestedUsers.length} {interestedUsers.length === 1 ? 'person' : 'people'}
-          </span>
-          <NotificationBell />
-          <button
-            onClick={() => navigate('/teams')}
-            className="text-xs font-semibold text-slate-300 hover:text-white bg-slate-900 border border-slate-800 px-3 py-2 rounded-xl transition-all"
-          >
-            Teams
-          </button>
-          <button
-            onClick={() => navigate('/chat')}
-            className="text-xs font-semibold text-slate-300 hover:text-white bg-slate-900 border border-slate-800 px-3 py-2 rounded-xl transition-all"
-          >
-            Chats
-          </button>
-          <button
-            onClick={() => navigate('/discover')}
-            className="text-xs font-semibold text-slate-300 hover:text-white bg-slate-900 border border-slate-800 px-3 py-2 rounded-xl transition-all"
-          >
-            Back to Discover
-          </button>
-        </div>
-      </header>
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col relative overflow-hidden">
+      {/* Decorative Blur Backgrounds */}
+      <div className="absolute top-20 left-10 w-96 h-96 bg-indigo-500/5 rounded-full filter blur-3xl pointer-events-none" />
+      <div className="absolute top-40 right-10 w-96 h-96 bg-emerald-500/5 rounded-full filter blur-3xl pointer-events-none" />
+      
+      <Navbar />
 
       {/* ── Main Content ── */}
-      <main className="flex-grow max-w-5xl mx-auto w-full px-4 sm:px-6 py-8">
+      <main className="flex-grow max-w-5xl mx-auto w-full px-4 sm:px-6 py-12 relative z-10">
+        {/* Page Header */}
+        <div className="mb-10 text-left">
+          <h1 className="text-3xl sm:text-4xl font-cabinet font-black tracking-tight text-white mb-2">
+            Interested In <span className="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">You</span>
+          </h1>
+          <p className="text-sm font-sans text-slate-400">
+            Hackers who swiped right on your profile. Like them back to create an instant match!
+          </p>
+        </div>
+
         {loading ? (
-          <div className="flex flex-col items-center justify-center h-[400px] space-y-4">
-            <FaSpinner className="animate-spin text-4xl text-rose-500" />
-            <p className="text-xs text-slate-500">Finding who's interested...</p>
+          <div className="flex flex-col items-center justify-center h-[350px] space-y-4 glass-panel rounded-3xl border border-white/5">
+            <div className="relative flex items-center justify-center">
+              <div className="w-12 h-12 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin" />
+              <FaHeart className="absolute text-indigo-400 text-sm animate-pulse" />
+            </div>
+            <p className="text-xs font-outfit text-slate-400 font-semibold tracking-wider uppercase">Finding who's interested...</p>
           </div>
         ) : interestedUsers.length === 0 ? (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            className="flex flex-col items-center justify-center h-[400px] space-y-6 text-center"
+            className="flex flex-col items-center justify-center h-[350px] space-y-6 text-center glass-panel rounded-3xl border border-white/5 p-8"
           >
-            <div className="w-20 h-20 bg-slate-900 border border-slate-800 rounded-full flex items-center justify-center text-slate-600 text-3xl">
-              <FaHeart />
+            <div className="w-16 h-16 bg-slate-900/80 border border-white/5 rounded-2xl flex items-center justify-center text-slate-500 text-2xl shadow-inner shadow-black/40">
+              <FaHeart className="text-indigo-500/40" />
             </div>
             <div>
-              <h3 className="text-xl font-bold text-white">No Likes Yet</h3>
-              <p className="text-sm text-slate-500 mt-2 max-w-sm mx-auto">
-                When someone swipes right or super likes your profile, they'll appear here.
-                Keep your profile polished to attract more interest!
+              <h3 className="text-xl font-cabinet font-black text-white">No likes yet</h3>
+              <p className="text-sm font-sans text-slate-400 mt-2 max-w-sm mx-auto leading-relaxed">
+                When someone swipes right or super likes your profile, they will appear here.
+                Keep your skills and projects updated to attract teams!
               </p>
             </div>
             <button
               onClick={() => navigate('/discover')}
-              className="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-5 py-2.5 rounded-xl flex items-center gap-2 transition-all shadow-lg shadow-blue-500/10 active:scale-95"
+              className="bg-indigo-600 hover:bg-indigo-500 text-white font-outfit text-xs font-bold px-6 py-3 rounded-xl flex items-center gap-2 transition-all shadow-lg shadow-indigo-600/20 active:scale-95 cursor-pointer"
             >
               <FaArrowLeft /> Back to Discover
             </button>
           </motion.div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <AnimatePresence>
               {interestedUsers.map((person, idx) => {
                 const isSuperLike = person.swipeAction === 'super';
@@ -155,93 +129,100 @@ const InterestedInYou = () => {
                   <motion.div
                     key={person._id}
                     layout
-                    initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                    initial={{ opacity: 0, scale: 0.95, y: 20 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.8, y: -20 }}
-                    transition={{ delay: idx * 0.05 }}
-                    className={`relative rounded-2xl overflow-hidden border shadow-xl ${
+                    exit={{ opacity: 0, scale: 0.9, y: -20 }}
+                    transition={{ delay: idx * 0.04, type: 'spring', stiffness: 200, damping: 20 }}
+                    className={`relative rounded-3xl overflow-hidden glass-panel border ${
                       isSuperLike
-                        ? 'border-yellow-500/30 shadow-yellow-500/10 bg-gradient-to-br from-slate-900 via-slate-900 to-yellow-950/20'
-                        : 'border-slate-800/80 bg-slate-900/60'
-                    }`}
+                        ? 'border-yellow-500/30 shadow-2xl shadow-yellow-500/5 bg-gradient-to-b from-slate-900/60 via-slate-900/40 to-yellow-950/10'
+                        : 'border-white/5 bg-slate-900/20 hover:border-white/10'
+                    } group`}
                   >
                     {/* Super Like badge */}
                     {isSuperLike && (
-                      <div className="absolute top-3 right-3 z-10">
+                      <div className="absolute top-4 right-4 z-20">
                         <motion.div
-                          animate={{ scale: [1, 1.15, 1] }}
+                          animate={{ scale: [1, 1.08, 1] }}
                           transition={{ duration: 2, repeat: Infinity }}
-                          className="bg-yellow-500/20 border border-yellow-500/40 text-yellow-400 text-[10px] font-black px-2 py-1 rounded-lg flex items-center gap-1"
+                          className="bg-yellow-500/15 border border-yellow-500/30 text-yellow-400 text-[9px] font-cabinet font-black px-2.5 py-1 rounded-lg flex items-center gap-1 uppercase tracking-wider shadow-md backdrop-blur-sm"
                         >
-                          <FaStar className="text-[10px]" /> Super Like
+                          <FaStar className="text-[9px]" /> Super Like
                         </motion.div>
                       </div>
                     )}
 
                     {/* Banner */}
                     <div
-                      className={`h-20 relative ${
+                      className={`h-24 relative overflow-hidden ${
                         isSuperLike
-                          ? 'bg-gradient-to-r from-yellow-900/30 via-amber-900/20 to-orange-900/30'
-                          : 'bg-gradient-to-r from-blue-900/40 via-indigo-900/30 to-purple-900/40'
+                          ? 'bg-gradient-to-r from-yellow-900/20 via-amber-900/10 to-orange-900/20'
+                          : 'bg-gradient-to-r from-indigo-900/20 via-purple-900/10 to-pink-900/20'
                       }`}
                     >
+                      {/* GitHub Score Badge */}
                       {person.githubScore > 0 && (
-                        <div className="absolute top-2 left-2 flex items-center gap-1 bg-slate-950/70 border border-slate-800 px-1.5 py-0.5 rounded">
-                          <FaGithub className="text-slate-300 text-[9px]" />
-                          <span className="text-[9px] font-bold text-emerald-400">
+                        <div className="absolute top-4 left-4 flex items-center gap-1 bg-slate-950/80 border border-white/10 px-2 py-1 rounded-lg backdrop-blur-sm shadow-md">
+                          <FaGithub className="text-slate-400 text-[10px]" />
+                          <span className="text-[10px] font-outfit font-bold text-emerald-400">
                             {person.githubScore}
                           </span>
                         </div>
                       )}
+                      
+                      {/* Grid background effect */}
+                      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:10px_10px]" />
                     </div>
 
                     {/* Content */}
-                    <div className="px-4 pb-4 relative">
+                    <div className="px-5 pb-5 relative">
                       {/* Avatar */}
-                      <div className="w-14 h-14 rounded-xl overflow-hidden bg-slate-800 border-2 border-slate-900 absolute -top-7 shadow-lg">
+                      <div className="w-16 h-16 rounded-2xl overflow-hidden bg-slate-950 border-2 border-slate-950 absolute -top-8 shadow-xl p-0.5 group-hover:border-indigo-500/20 transition-all duration-300">
                         <img
                           src={
                             person.avatar?.secureUrl ||
-                            `https://ui-avatars.com/api/?name=${encodeURIComponent(person.name)}&background=1e293b&color=94a3b8&size=128`
+                            `https://ui-avatars.com/api/?name=${encodeURIComponent(person.name)}&background=0f172a&color=cbd5e1&size=128`
                           }
                           alt={person.name}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover rounded-xl"
                         />
                       </div>
 
                       {/* Info */}
-                      <div className="pt-9 space-y-1.5">
-                        <h3 className="text-sm font-bold text-white truncate">{person.name}</h3>
-                        <p className="text-[10px] text-slate-400 flex flex-wrap items-center gap-x-2 gap-y-0.5">
-                          <span className="flex items-center gap-0.5">
-                            <FaBriefcase className="text-[8px]" /> {person.role}
+                      <div className="pt-10 space-y-2">
+                        <h3 className="text-base font-cabinet font-black text-white truncate group-hover:text-indigo-300 transition-colors">
+                          {person.name}
+                        </h3>
+                        
+                        <p className="text-[11px] font-outfit text-slate-400 flex flex-wrap items-center gap-x-3 gap-y-1">
+                          <span className="flex items-center gap-1 font-semibold text-slate-300">
+                            <FaBriefcase className="text-[9px] text-indigo-400" /> {person.role}
                           </span>
                           {person.college && (
-                            <span className="flex items-center gap-0.5">
-                              <FaGraduationCap className="text-[8px]" /> {person.college}
+                            <span className="flex items-center gap-1">
+                              <FaGraduationCap className="text-[9px]" /> {person.college}
                             </span>
                           )}
                           {person.city && (
-                            <span className="flex items-center gap-0.5">
-                              <FaMapMarkerAlt className="text-[8px]" /> {person.city}
+                            <span className="flex items-center gap-1">
+                              <FaMapMarkerAlt className="text-[9px]" /> {person.city}
                             </span>
                           )}
                         </p>
 
                         {/* Skills preview */}
                         {person.skills?.length > 0 && (
-                          <div className="flex flex-wrap gap-1 mt-1.5">
+                          <div className="flex flex-wrap gap-1.5 pt-1">
                             {person.skills.slice(0, 3).map((s) => (
                               <span
                                 key={s}
-                                className="bg-blue-900/15 text-blue-400 border border-blue-800/10 text-[9px] px-1.5 py-0.5 rounded font-medium"
+                                className="bg-indigo-500/10 text-indigo-300 border border-indigo-500/10 text-[9px] font-outfit font-semibold px-2 py-0.5 rounded-md"
                               >
                                 {s}
                               </span>
                             ))}
                             {person.skills.length > 3 && (
-                              <span className="text-[9px] text-slate-500">
+                              <span className="text-[9px] font-outfit text-slate-500 font-bold self-center ml-1">
                                 +{person.skills.length - 3}
                               </span>
                             )}
@@ -250,31 +231,31 @@ const InterestedInYou = () => {
 
                         {/* Time ago */}
                         {person.swipedAt && (
-                          <p className="text-[9px] text-slate-600 mt-1">
-                            {formatTimeAgo(person.swipedAt)}
+                          <p className="text-[10px] font-sans text-slate-500 mt-2">
+                            Swiped {formatTimeAgo(person.swipedAt)}
                           </p>
                         )}
                       </div>
 
                       {/* Actions */}
-                      <div className="flex items-center gap-2 mt-4">
+                      <div className="flex items-center gap-2 mt-5 pt-3 border-t border-white/5 font-outfit">
                         <button
                           onClick={() => handleSwipeBack(person, 'left')}
                           disabled={isProcessing}
-                          className="flex-1 flex items-center justify-center gap-1 py-2 text-[10px] font-bold text-red-400 border border-red-500/20 bg-red-500/5 rounded-lg hover:bg-red-500/10 transition-all disabled:opacity-50 active:scale-95"
+                          className="flex-1 flex items-center justify-center gap-1 py-2 text-[11px] font-bold text-red-400 border border-red-500/10 bg-red-500/5 rounded-xl hover:bg-red-500/10 transition-all disabled:opacity-50 active:scale-95 cursor-pointer"
                         >
                           <FaTimes className="text-[10px]" /> Pass
                         </button>
                         <button
                           onClick={() => navigate(`/profile/${person._id}`)}
-                          className="flex-1 flex items-center justify-center gap-1 py-2 text-[10px] font-bold text-slate-300 border border-slate-700 bg-slate-800/50 rounded-lg hover:bg-slate-800 transition-all active:scale-95"
+                          className="flex-1 flex items-center justify-center gap-1 py-2 text-[11px] font-bold text-slate-300 border border-white/5 bg-slate-900 rounded-xl hover:bg-slate-800 transition-all active:scale-95 cursor-pointer"
                         >
                           <FaUser className="text-[10px]" /> View
                         </button>
                         <button
                           onClick={() => handleSwipeBack(person, 'right')}
                           disabled={isProcessing}
-                          className="flex-1 flex items-center justify-center gap-1 py-2 text-[10px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-lg hover:bg-emerald-500/20 transition-all disabled:opacity-50 active:scale-95"
+                          className="flex-1 flex items-center justify-center gap-1 py-2 text-[11px] font-bold text-slate-950 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 rounded-xl hover:shadow-lg hover:shadow-emerald-500/10 transition-all disabled:opacity-50 active:scale-95 cursor-pointer"
                         >
                           <FaHeart className="text-[10px]" /> Like
                         </button>
@@ -294,7 +275,7 @@ const InterestedInYou = () => {
 // ── Helper: format relative time ──
 function formatTimeAgo(dateStr) {
   const seconds = Math.floor((Date.now() - new Date(dateStr).getTime()) / 1000);
-  if (seconds < 60) return 'Just now';
+  if (seconds < 60) return 'just now';
   const minutes = Math.floor(seconds / 60);
   if (minutes < 60) return `${minutes}m ago`;
   const hours = Math.floor(minutes / 60);

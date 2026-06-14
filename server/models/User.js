@@ -29,6 +29,7 @@ const userSchema = new mongoose.Schema(
     availability: { type: String },
     profileVisibility: { type: Boolean, default: true },
     isAdmin: { type: Boolean, default: false },
+    isBanned: { type: Boolean, default: false },
     onboardingComplete: { type: Boolean, default: false },
     lastActive: { type: Date, default: Date.now },
     status: { type: String, enum: ['Online', 'Offline'], default: 'Offline' },

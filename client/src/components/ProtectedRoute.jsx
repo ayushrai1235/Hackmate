@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
-const ProtectedRoute = ({ requireOnboarding = true }) => {
+const ProtectedRoute = ({ requireOnboarding = true, requireAdmin = false }) => {
   const { user, loading } = useContext(AuthContext);
   const location = useLocation();
 
@@ -17,6 +17,11 @@ const ProtectedRoute = ({ requireOnboarding = true }) => {
   if (!user) {
     // Redirect to login but save the attempted url
     return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  if (requireAdmin && !user.isAdmin) {
+    // Non-admin trying to access admin page
+    return <Navigate to="/discover" replace />;
   }
 
   if (requireOnboarding && user.onboardingComplete === false && location.pathname !== '/onboarding') {

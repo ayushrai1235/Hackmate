@@ -8,6 +8,7 @@ import {
 } from 'react-icons/fa';
 import { NotificationContext } from '../context/NotificationContext';
 import { formatTimeAgo, getTypeIcon } from '../components/NotificationBell';
+import Navbar from '../components/Navbar';
 import './Notifications.css';
 
 const Notifications = () => {
@@ -51,15 +52,10 @@ const Notifications = () => {
   };
 
   return (
-    <div className="notifications-page-container">
-      <div className="notifications-content-box">
-        <button 
-          className="btn-secondary" 
-          onClick={() => navigate('/discover')}
-          style={{ marginBottom: '20px' }}
-        >
-          <FaArrowLeft /> Back to Discover
-        </button>
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
+      <Navbar />
+      <div className="notifications-page-container flex-grow">
+        <div className="notifications-content-box">
 
         <div className="notifications-header">
           <div>
@@ -149,6 +145,7 @@ const Notifications = () => {
         )}
       </div>
     </div>
+  </div>
   );
 };
 

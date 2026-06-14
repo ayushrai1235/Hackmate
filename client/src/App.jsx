@@ -18,6 +18,9 @@ import CreateTeam from './pages/CreateTeam';
 import TeamDetail from './pages/TeamDetail';
 import Chat from './pages/Chat';
 import Notifications from './pages/Notifications';
+import Landing from './pages/Landing';
+import Search from './pages/Search';
+import Admin from './pages/Admin';
 
 function App() {
   return (
@@ -27,13 +30,14 @@ function App() {
           <Router>
           <Routes>
             {/* Public Routes */}
+            <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/" element={<Navigate to="/login" replace />} />
 
             {/* Protected routes requiring onboarding */}
             <Route element={<ProtectedRoute requireOnboarding={true} />}>
               <Route path="/discover" element={<Discover />} />
+              <Route path="/search" element={<Search />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/profile/:id" element={<PublicProfile />} />
               <Route path="/interested" element={<InterestedInYou />} />
@@ -43,6 +47,11 @@ function App() {
               <Route path="/teams/:id/edit" element={<CreateTeam isEdit={true} />} />
               <Route path="/chat" element={<Chat />} />
               <Route path="/notifications" element={<Notifications />} />
+            </Route>
+
+            {/* Protected admin routes */}
+            <Route element={<ProtectedRoute requireOnboarding={true} requireAdmin={true} />}>
+              <Route path="/admin" element={<Admin />} />
             </Route>
 
             {/* Protected route NOT requiring onboarding (for the onboarding flow itself) */}
