@@ -215,6 +215,12 @@ const Discover = () => {
             <FaHeart className="text-[10px]" /> Interested In You
           </button>
           <button
+            onClick={() => navigate('/chat')}
+            className="text-xs font-semibold text-slate-300 hover:text-white bg-slate-900 border border-slate-800 px-3 py-2 rounded-xl transition-all"
+          >
+            Chats
+          </button>
+          <button
             onClick={() => navigate('/profile')}
             className="text-xs font-semibold text-slate-300 hover:text-white bg-slate-900 border border-slate-800 px-3 py-2 rounded-xl transition-all"
           >
