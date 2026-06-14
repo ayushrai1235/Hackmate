@@ -1,6 +1,7 @@
 import { User, Swipe, Match, Chat, Notification, Report } from '../models/index.js';
 import mongoose from 'mongoose';
 import { computeMatchScore } from '../services/matchmakingService.js';
+import { createNotification } from '../services/notificationService.js';
 
 // ── Helper: reset super likes if past midnight ──
 const resetSuperLikesIfNeeded = async (user) => {
@@ -140,21 +141,15 @@ export const createSwipe = async (req, res) => {
     if (action === 'right' || action === 'super') {
       // Create notification for target
       const notifType = action === 'super' ? 'super_liked' : 'liked';
-      const notification = await Notification.create({
-        receiver: targetId,
-        sender: currentUserId,
-        type: notifType,
-        message:
-          action === 'super'
-            ? `${req.user.name} super liked you! ⭐`
-            : `${req.user.name} liked your profile`,
-        metadata: { swipeId: swipe._id },
-      });
-
-      // Emit real-time notification
-      if (io) {
-        io.to(`user:${targetId}`).emit('notification:new', notification);
-      }
+      await createNotification(
+        targetId,
+        currentUserId,
+        notifType,
+        action === 'super'
+          ? `${req.user.name} super liked you! ⭐`
+          : `${req.user.name} liked your profile`,
+        { swipeId: swipe._id }
+      );
 
       // Check for mutual swipe
       const mutualSwipe = await Swipe.findOne({
@@ -200,21 +195,21 @@ export const createSwipe = async (req, res) => {
           // Create match notifications for both users
           const currentUserData = await User.findById(currentUserId).select('name avatar');
 
-          const [notifA, notifB] = await Promise.all([
-            Notification.create({
-              receiver: currentUserId,
-              sender: targetId,
-              type: 'matched',
-              message: `You matched with ${targetUser.name}! 🎉`,
-              metadata: { matchId: match._id, chatId: chat?._id },
-            }),
-            Notification.create({
-              receiver: targetId,
-              sender: currentUserId,
-              type: 'matched',
-              message: `You matched with ${currentUserData.name}! 🎉`,
-              metadata: { matchId: match._id, chatId: chat?._id },
-            }),
+          await Promise.all([
+            createNotification(
+              currentUserId,
+              targetId,
+              'matched',
+              `You matched with ${targetUser.name}! 🎉`,
+              { matchId: match._id, chatId: chat?._id }
+            ),
+            createNotification(
+              targetId,
+              currentUserId,
+              'matched',
+              `You matched with ${currentUserData.name}! 🎉`,
+              { matchId: match._id, chatId: chat?._id }
+            ),
           ]);
 
           // Emit match events to both users

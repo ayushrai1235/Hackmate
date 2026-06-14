@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
+import Notification from '../models/Notification.js';
 import { generateAccessToken, generateRefreshToken } from '../utils/generateToken.js';
 
 // @desc    Register a new user
@@ -121,7 +122,8 @@ export const getMe = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
     if (user) {
-      res.json({ user });
+      const unreadCount = await Notification.countDocuments({ receiver: req.user._id, isRead: false });
+      res.json({ user, unreadCount });
     } else {
       res.status(404).json({ message: 'User not found' });
     }

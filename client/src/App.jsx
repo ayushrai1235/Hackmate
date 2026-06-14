@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { SocketProvider } from './context/SocketContext';
+import { NotificationProvider } from './context/NotificationContext';
 import ProtectedRoute from './components/ProtectedRoute';
 
 // Pages
@@ -16,12 +17,14 @@ import Teams from './pages/Teams';
 import CreateTeam from './pages/CreateTeam';
 import TeamDetail from './pages/TeamDetail';
 import Chat from './pages/Chat';
+import Notifications from './pages/Notifications';
 
 function App() {
   return (
     <AuthProvider>
       <SocketProvider>
-        <Router>
+        <NotificationProvider>
+          <Router>
           <Routes>
             {/* Public Routes */}
             <Route path="/login" element={<Login />} />
@@ -39,6 +42,7 @@ function App() {
               <Route path="/teams/:id" element={<TeamDetail />} />
               <Route path="/teams/:id/edit" element={<CreateTeam isEdit={true} />} />
               <Route path="/chat" element={<Chat />} />
+              <Route path="/notifications" element={<Notifications />} />
             </Route>
 
             {/* Protected route NOT requiring onboarding (for the onboarding flow itself) */}
@@ -47,6 +51,7 @@ function App() {
             </Route>
           </Routes>
         </Router>
+        </NotificationProvider>
       </SocketProvider>
     </AuthProvider>
   );

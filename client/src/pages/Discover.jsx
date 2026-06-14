@@ -18,6 +18,7 @@ import {
 } from 'react-icons/fa';
 import swipeService from '../services/swipeService';
 import { AuthContext } from '../context/AuthContext';
+import NotificationBell from '../components/NotificationBell';
 import { SocketContext } from '../context/SocketContext';
 import SwipeCard from '../components/SwipeCard';
 import MatchModal from '../components/MatchModal';
@@ -202,6 +203,7 @@ const Discover = () => {
         </div>
 
         <div className="flex items-center gap-2">
+          <NotificationBell />
           <button
             onClick={() => navigate('/teams')}
             className="text-xs font-semibold text-slate-300 hover:text-white bg-slate-900 border border-slate-800 px-3 py-2 rounded-xl transition-all"

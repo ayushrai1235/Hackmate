@@ -1,6 +1,10 @@
 import jwt from 'jsonwebtoken';
 import { User, Message, Chat } from '../models/index.js';
 
+let ioInstance = null;
+
+export const getIo = () => ioInstance;
+
 // Map of userId -> Set of socket IDs for targeted emissions
 const onlineUsers = new Map();
 
@@ -13,6 +17,8 @@ export const emitToUser = (io, userId, event, data) => {
 };
 
 const initSocket = (io) => {
+  ioInstance = io;
+
   // Authentication middleware for Socket.IO connection
   io.use((socket, next) => {
     const token = socket.handshake.auth?.token || socket.handshake.query?.token;
@@ -148,6 +154,23 @@ const initSocket = (io) => {
 
           // Emit to all users in the chat room (include tempId for sender alignment)
           io.to(chatId).emit('message:new', { message, tempId });
+
+          // Create message notifications for other participants
+          if (chat && chat.participants) {
+            const otherParticipants = chat.participants.filter(p => p.toString() !== userId);
+            const { createNotification } = await import('../services/notificationService.js');
+            await Promise.all(
+              otherParticipants.map(p =>
+                createNotification(
+                  p,
+                  userId,
+                  'message',
+                  content || 'Sent an attachment',
+                  { chatId: chat._id, messageId: message._id }
+                )
+              )
+            );
+          }
         } catch (err) {
           console.error('Error processing message:send via socket:', err);
           socket.emit('error', { message: 'Failed to send message' });

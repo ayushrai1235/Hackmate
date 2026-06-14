@@ -18,6 +18,7 @@ import githubRoutes from './routes/github.js';
 import swipeRoutes from './routes/swipes.js';
 import teamRoutes from './routes/teams.js';
 import chatRoutes from './routes/chats.js';
+import notificationRoutes from './routes/notifications.js';
 
 // Initialize database connection
 connectDB();
@@ -68,6 +69,7 @@ app.use('/api/github', githubRoutes);
 app.use('/api/swipes', swipeRoutes);
 app.use('/api/teams', teamRoutes);
 app.use('/api/chats', chatRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 // Basic Route for testing
 app.get('/api/health', (req, res) => {

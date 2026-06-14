@@ -5,6 +5,7 @@ import { SocketContext } from '../context/SocketContext';
 import { getChats } from '../services/chatService';
 import ChatList from '../components/ChatList';
 import ChatRoom from '../components/ChatRoom';
+import NotificationBell from '../components/NotificationBell';
 
 const Chat = () => {
   const navigate = useNavigate();
@@ -203,6 +204,7 @@ const Chat = () => {
         </div>
 
         <div className="flex items-center gap-2">
+          <NotificationBell />
           <button
             onClick={() => navigate('/discover')}
             className="text-xs font-semibold text-slate-300 hover:text-white bg-slate-900 border border-slate-800 px-3 py-2 rounded-xl transition-all"

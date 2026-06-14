@@ -9,6 +9,7 @@ import {
 import { AuthContext } from '../context/AuthContext';
 import { uploadAvatar } from '../services/uploadService';
 import api from '../services/api';
+import NotificationBell from '../components/NotificationBell';
 import GitHubBadge from '../components/GitHubBadge';
 import GitHubStats from '../components/GitHubStats';
 
@@ -167,6 +168,7 @@ const Profile = () => {
             </h2>
           </div>
           <div className="flex gap-3">
+            <NotificationBell />
             <button
               onClick={() => window.location.href = '/discover'}
               className="text-xs font-semibold text-slate-300 bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-lg transition-all"

@@ -1,7 +1,8 @@
 import User from '../models/User.js';
 import Team from '../models/Team.js';
+import Notification from '../models/Notification.js';
 import { getGitHubStats } from '../services/githubService.js';
-
+ 
 // Helper to fetch GitHub data & calculate score using githubService
 const fetchGithubStats = async (username) => {
   if (!username) return null;
@@ -22,7 +23,7 @@ const fetchGithubStats = async (username) => {
     return null;
   }
 };
-
+ 
 // GET /api/users/me
 export const getMe = async (req, res) => {
   try {
@@ -30,7 +31,8 @@ export const getMe = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
-    return res.status(200).json({ user });
+    const unreadCount = await Notification.countDocuments({ receiver: req.user._id, isRead: false });
+    return res.status(200).json({ user, unreadCount });
   } catch (error) {
     return res.status(500).json({ message: 'Error retrieving profile', error: error.message });
   }

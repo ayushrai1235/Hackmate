@@ -15,6 +15,7 @@ import {
 } from 'react-icons/fa';
 import swipeService from '../services/swipeService';
 import { AuthContext } from '../context/AuthContext';
+import NotificationBell from '../components/NotificationBell';
 
 const InterestedInYou = () => {
   const { user } = useContext(AuthContext);
@@ -91,6 +92,7 @@ const InterestedInYou = () => {
           <span className="text-[10px] text-slate-500 bg-slate-900 border border-slate-800 px-2.5 py-1 rounded-lg font-mono">
             {interestedUsers.length} {interestedUsers.length === 1 ? 'person' : 'people'}
           </span>
+          <NotificationBell />
           <button
             onClick={() => navigate('/teams')}
             className="text-xs font-semibold text-slate-300 hover:text-white bg-slate-900 border border-slate-800 px-3 py-2 rounded-xl transition-all"
