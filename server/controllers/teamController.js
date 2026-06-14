@@ -1,4 +1,4 @@
-import { Team, User, Notification } from '../models/index.js';
+import { Team, User, Notification, Chat } from '../models/index.js';
 import { computeTeamHealth } from '../services/teamHealthService.js';
 import { computeMatchScore } from '../services/matchmakingService.js';
 
@@ -87,6 +87,13 @@ export const createTeam = async (req, res) => {
       members: [userId],
     });
 
+    // Create a corresponding team chat
+    await Chat.create({
+      teamId: team._id,
+      isTeamChat: true,
+      participants: [userId],
+    });
+
     const populated = await Team.findById(team._id)
       .populate('owner', 'name avatar')
       .populate('members', 'name avatar role skills experienceLevel techStack githubScore');
@@ -169,6 +176,7 @@ export const deleteTeam = async (req, res) => {
     }
 
     await Team.findByIdAndDelete(req.params.id);
+    await Chat.findOneAndDelete({ teamId: req.params.id });
 
     return res.status(200).json({ message: 'Team deleted successfully' });
   } catch (error) {
@@ -238,6 +246,12 @@ export const acceptJoinRequest = async (req, res) => {
       team.members.push(userId);
     }
     await team.save();
+
+    // Add user to the team chat room
+    await Chat.findOneAndUpdate(
+      { teamId: team._id },
+      { $addToSet: { participants: userId } }
+    );
 
     // Notify user
     await Notification.create({
@@ -354,6 +368,12 @@ export const respondToInvite = async (req, res) => {
       if (!team.members.map(String).includes(userId)) {
         team.members.push(userId);
       }
+
+      // Add user to the team chat room
+      await Chat.findOneAndUpdate(
+        { teamId: team._id },
+        { $addToSet: { participants: userId } }
+      );
       
       // Notify owner
       await Notification.create({
@@ -397,6 +417,12 @@ export const removeMember = async (req, res) => {
 
     team.members = team.members.filter((id) => id.toString() !== userId);
     await team.save();
+
+    // Remove user from the team chat room
+    await Chat.findOneAndUpdate(
+      { teamId: team._id },
+      { $pull: { participants: userId } }
+    );
 
     return res.status(200).json({ message: 'Member removed' });
   } catch (error) {

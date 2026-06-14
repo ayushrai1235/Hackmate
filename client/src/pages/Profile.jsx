@@ -180,6 +180,12 @@ const Profile = () => {
               Teams
             </button>
             <button
+              onClick={() => window.location.href = '/chat'}
+              className="text-xs font-semibold text-slate-300 bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-lg transition-all"
+            >
+              Chats
+            </button>
+            <button
               onClick={logout}
               className="text-xs font-semibold text-red-400 hover:text-red-300 bg-red-950/20 hover:bg-red-950/40 border border-red-900/30 px-3 py-2 rounded-lg flex items-center gap-1.5 transition-all"
             >

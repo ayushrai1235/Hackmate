@@ -17,6 +17,7 @@ import uploadRoutes from './routes/upload.js';
 import githubRoutes from './routes/github.js';
 import swipeRoutes from './routes/swipes.js';
 import teamRoutes from './routes/teams.js';
+import chatRoutes from './routes/chats.js';
 
 // Initialize database connection
 connectDB();
@@ -31,6 +32,7 @@ const io = new Server(server, {
     methods: ['GET', 'POST'],
     credentials: true,
   },
+  transports: ['websocket', 'polling'],
 });
 
 // Attach socket initialization
@@ -65,6 +67,7 @@ app.use('/api/upload', uploadRoutes);
 app.use('/api/github', githubRoutes);
 app.use('/api/swipes', swipeRoutes);
 app.use('/api/teams', teamRoutes);
+app.use('/api/chats', chatRoutes);
 
 // Basic Route for testing
 app.get('/api/health', (req, res) => {

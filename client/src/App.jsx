@@ -15,6 +15,7 @@ import InterestedInYou from './pages/InterestedInYou';
 import Teams from './pages/Teams';
 import CreateTeam from './pages/CreateTeam';
 import TeamDetail from './pages/TeamDetail';
+import Chat from './pages/Chat';
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
               <Route path="/teams/create" element={<CreateTeam />} />
               <Route path="/teams/:id" element={<TeamDetail />} />
               <Route path="/teams/:id/edit" element={<CreateTeam isEdit={true} />} />
+              <Route path="/chat" element={<Chat />} />
             </Route>
 
             {/* Protected route NOT requiring onboarding (for the onboarding flow itself) */}
