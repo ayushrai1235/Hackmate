@@ -11,6 +11,7 @@ import {
   FaBriefcase, FaGraduationCap, FaChevronLeft, FaChevronRight, 
   FaTimes, FaComment, FaCode, FaRegFrown, FaFilter 
 } from 'react-icons/fa';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Search = () => {
   const navigate = useNavigate();
@@ -22,6 +23,8 @@ const Search = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [totalUsers, setTotalUsers] = useState(0);
   const [showFiltersMobile, setShowFiltersMobile] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+
   
   // Detail Modal & Match states
   const [selectedUser, setSelectedUser] = useState(null);
@@ -58,6 +61,16 @@ const Search = () => {
     setPage(1); // reset to page 1 on filter changes
     fetchUsers(newFilters, 1);
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const currentName = filters.name || '';
+      if (currentName !== searchTerm) {
+        handleFilterChange({ ...filters, name: searchTerm });
+      }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [searchTerm, filters]);
 
   const handlePageChange = (newPage) => {
     if (newPage < 1 || newPage > totalPages) return;
@@ -121,12 +134,57 @@ const Search = () => {
           </div>
         </div>
 
+        {/* Global Search Input */}
+        <div className="relative w-full max-w-2xl mx-auto mb-2">
+          <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+          <input
+            type="text"
+            placeholder="Search by name..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="premium-input w-full pl-11 pr-4 py-3.5 text-sm font-medium"
+          />
+        </div>
+
         {/* Content Body Layout */}
         <div className="flex-1 flex flex-col lg:flex-row gap-6 relative items-start">
-          {/* Filter Panel Column - Sticky Left */}
-          <div className={`w-full lg:w-72 lg:shrink-0 lg:block ${showFiltersMobile ? 'block' : 'hidden'}`}>
+          {/* Desktop Filter Panel Column */}
+          <div className="hidden lg:block w-72 shrink-0">
             <FilterPanel onFilterChange={handleFilterChange} initialFilters={filters} />
           </div>
+
+          {/* Mobile Filter Drawer */}
+          <AnimatePresence>
+            {showFiltersMobile && (
+              <>
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
+                  onClick={() => setShowFiltersMobile(false)}
+                />
+                <motion.div
+                  initial={{ x: '-100%' }}
+                  animate={{ x: 0 }}
+                  exit={{ x: '-100%' }}
+                  transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                  className="fixed top-0 left-0 h-full w-[280px] bg-[#0f172a] border-r border-white/10 shadow-2xl z-50 flex flex-col p-5 lg:hidden overflow-y-auto hw-accelerate"
+                >
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="font-cabinet text-xl font-black tracking-tight text-white">Filters</span>
+                    <button 
+                      onClick={() => setShowFiltersMobile(false)}
+                      className="p-2 text-slate-400 hover:text-white rounded-full bg-white/5"
+                    >
+                      <FaTimes />
+                    </button>
+                  </div>
+                  <FilterPanel onFilterChange={handleFilterChange} initialFilters={filters} />
+                </motion.div>
+              </>
+            )}
+          </AnimatePresence>
 
           {/* Results Column */}
           <div className="flex-1 w-full space-y-6">
