@@ -1,6 +1,7 @@
 import { Team, User, Notification, Chat } from '../models/index.js';
 import { computeTeamHealth } from '../services/teamHealthService.js';
 import { computeMatchScore } from '../services/matchmakingService.js';
+import { createNotification } from '../services/notificationService.js';
 
 // ── GET /api/teams ── list teams for discovery (paginated) ──
 export const discoverTeams = async (req, res) => {
@@ -205,13 +206,13 @@ export const requestToJoinTeam = async (req, res) => {
     await team.save();
 
     // Notify owner
-    await Notification.create({
-      receiver: team.owner,
-      sender: userId,
-      type: 'join_request',
-      message: `${req.user.name} wants to join your team ${team.name}`,
-      metadata: { teamId: team._id },
-    });
+    await createNotification(
+      team.owner,
+      userId,
+      'join_request',
+      `${req.user.name} wants to join your team ${team.name}`,
+      { teamId: team._id }
+    );
 
     return res.status(200).json({ message: 'Join request sent' });
   } catch (error) {
@@ -254,13 +255,13 @@ export const acceptJoinRequest = async (req, res) => {
     );
 
     // Notify user
-    await Notification.create({
-      receiver: userId,
-      sender: req.user._id,
-      type: 'request_accepted',
-      message: `Your request to join ${team.name} has been accepted!`,
-      metadata: { teamId: team._id },
-    });
+    await createNotification(
+      userId,
+      req.user._id,
+      'request_accepted',
+      `Your request to join ${team.name} has been accepted!`,
+      { teamId: team._id }
+    );
 
     const populated = await Team.findById(team._id)
       .populate('owner', 'name avatar')
@@ -325,13 +326,13 @@ export const inviteUser = async (req, res) => {
     await team.save();
 
     // Notify user
-    await Notification.create({
-      receiver: userId,
-      sender: req.user._id,
-      type: 'team_invite',
-      message: `You've been invited to join team ${team.name}`,
-      metadata: { teamId: team._id },
-    });
+    await createNotification(
+      userId,
+      req.user._id,
+      'team_invite',
+      `You've been invited to join team ${team.name}`,
+      { teamId: team._id }
+    );
 
     return res.status(200).json({ message: 'Invite sent' });
   } catch (error) {
@@ -376,13 +377,13 @@ export const respondToInvite = async (req, res) => {
       );
       
       // Notify owner
-      await Notification.create({
-        receiver: team.owner,
-        sender: userId,
-        type: 'team_accepted',
-        message: `${req.user.name} accepted your invite to join ${team.name}`,
-        metadata: { teamId: team._id },
-      });
+      await createNotification(
+        team.owner,
+        userId,
+        'team_accepted',
+        `${req.user.name} accepted your invite to join ${team.name}`,
+        { teamId: team._id }
+      );
     }
 
     await team.save();

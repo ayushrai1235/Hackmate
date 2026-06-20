@@ -9,6 +9,7 @@ import {
 import { AuthContext } from '../context/AuthContext';
 import { uploadAvatar } from '../services/uploadService';
 import api from '../services/api';
+import Navbar from '../components/Navbar';
 import GitHubBadge from '../components/GitHubBadge';
 import GitHubStats from '../components/GitHubStats';
 
@@ -149,64 +150,32 @@ const Profile = () => {
 
   if (!user) {
     return (
-      <div className="flex h-screen items-center justify-center bg-slate-950 text-white">
-        <FaSpinner className="animate-spin text-4xl text-blue-500" />
+      <div className="flex h-screen items-center justify-center bg-[#030014] text-white">
+        <FaSpinner className="animate-spin text-4xl text-indigo-500" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto space-y-8">
-        
-        {/* Navigation Banner */}
-        <div className="flex justify-between items-center bg-slate-900/40 border border-slate-800/80 rounded-2xl p-4 backdrop-blur-md">
-          <div className="flex items-center gap-2">
-            <h2 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">
-              HackMate AI Dashboard
-            </h2>
-          </div>
-          <div className="flex gap-3">
-            <button
-              onClick={() => window.location.href = '/discover'}
-              className="text-xs font-semibold text-slate-300 bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-lg transition-all"
-            >
-              Find Hackers
-            </button>
-            <button
-              onClick={() => window.location.href = '/teams'}
-              className="text-xs font-semibold text-slate-300 bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-lg transition-all"
-            >
-              Teams
-            </button>
-            <button
-              onClick={() => window.location.href = '/chat'}
-              className="text-xs font-semibold text-slate-300 bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-lg transition-all"
-            >
-              Chats
-            </button>
-            <button
-              onClick={logout}
-              className="text-xs font-semibold text-red-400 hover:text-red-300 bg-red-950/20 hover:bg-red-950/40 border border-red-900/30 px-3 py-2 rounded-lg flex items-center gap-1.5 transition-all"
-            >
-              <FaSignOutAlt /> Logout
-            </button>
-          </div>
-        </div>
-
-        {/* Success Alert Banner */}
+    <div className="relative min-h-screen bg-[#030014] text-slate-100 flex flex-col overflow-hidden font-sans">
+      <div className="fixed top-[-15%] right-[-10%] w-[40%] h-[40%] rounded-full bg-indigo-500/[0.06] blur-[120px] pointer-events-none" />
+      <div className="fixed bottom-[-10%] left-[-10%] w-[35%] h-[35%] rounded-full bg-emerald-500/[0.04] blur-[100px] pointer-events-none" />
+      <Navbar />
+      <div className="relative flex-grow py-12 px-4 sm:px-6 lg:px-8 z-10">
+        <div className="max-w-4xl mx-auto space-y-8">
+          {/* Success Alert Banner */}
         {successMsg && (
-          <div className="bg-emerald-950/40 border border-emerald-800/60 rounded-xl p-4 flex items-center gap-2 text-emerald-400 text-sm">
+          <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-4 flex items-center gap-2 text-emerald-400 text-sm font-outfit">
             <FaCheckCircle className="text-lg flex-shrink-0" />
             <span>{successMsg}</span>
           </div>
         )}
 
         {/* PROFILE CONTENT CARD */}
-        <div className="bg-slate-900/60 border border-slate-800/60 shadow-2xl rounded-3xl overflow-hidden backdrop-blur-xl">
+        <div className="glass-panel border border-white/5 shadow-2xl rounded-2xl overflow-hidden">
           
           {/* Cover Placeholder Gradient */}
-          <div className="h-32 bg-gradient-to-r from-blue-600 to-indigo-700 relative" />
+          <div className="h-32 bg-gradient-to-r from-indigo-600 to-emerald-600 relative" />
 
           {/* Profile Header Block */}
           <div className="relative px-8 pb-8">
@@ -248,14 +217,14 @@ const Profile = () => {
                 </div>
 
                 <div className="text-center sm:text-left translate-y-3">
-                  <h1 className="text-2xl font-bold text-white flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                  <h1 className="text-2xl font-bold text-white flex flex-wrap items-center justify-center sm:justify-start gap-2 font-cabinet">
                     {user.name}
-                    <span className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded-full ${user.profileVisibility ? 'bg-blue-500/20 text-blue-400' : 'bg-slate-800 text-slate-500'}`}>
+                    <span className={`text-[10px] uppercase font-bold px-2 py-0.5 rounded-full ${user.profileVisibility ? 'bg-indigo-500/15 text-indigo-400 border border-indigo-500/20' : 'bg-white/5 text-slate-500 border border-white/5'}`}>
                       {user.profileVisibility ? 'Public' : 'Private'}
                     </span>
                     <GitHubBadge score={user.githubScore} />
                   </h1>
-                  <p className="text-sm text-slate-400 flex items-center justify-center sm:justify-start gap-1.5 mt-0.5">
+                  <p className="text-sm text-slate-400 flex items-center justify-center sm:justify-start gap-1.5 mt-0.5 font-outfit">
                     <FaBriefcase className="text-slate-500 text-xs" /> {user.role} &bull; {user.experienceLevel}
                   </p>
                 </div>
@@ -268,7 +237,7 @@ const Profile = () => {
                     <button
                       type="button"
                       onClick={() => setIsEditing(false)}
-                      className="px-4 py-2 border border-slate-805 text-slate-300 font-semibold rounded-xl text-sm hover:bg-slate-800 transition-colors flex items-center gap-1.5"
+                      className="px-4 py-2 border border-white/10 text-slate-300 font-semibold rounded-xl text-sm hover:bg-white/5 transition-colors flex items-center gap-1.5 font-outfit"
                     >
                       <FaTimes /> Cancel
                     </button>
@@ -276,7 +245,7 @@ const Profile = () => {
                       type="button"
                       onClick={handleSave}
                       disabled={loading}
-                      className="px-4 py-2 bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-700 hover:to-emerald-700 text-white font-bold rounded-xl text-sm transition-all flex items-center gap-1.5 shadow-lg shadow-blue-600/20 disabled:opacity-50"
+                      className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-emerald-500 hover:from-indigo-600 hover:to-emerald-600 text-white font-bold rounded-xl text-sm transition-all flex items-center gap-1.5 shadow-lg shadow-indigo-500/20 disabled:opacity-50 font-outfit"
                     >
                       {loading ? <FaSpinner className="animate-spin" /> : <FaSave />} Save
                     </button>
@@ -285,7 +254,7 @@ const Profile = () => {
                   <button
                     type="button"
                     onClick={() => setIsEditing(true)}
-                    className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl text-sm transition-colors flex items-center gap-1.5 shadow-lg shadow-blue-500/10"
+                    className="px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-600 hover:to-indigo-700 text-white font-semibold rounded-xl text-sm transition-all flex items-center gap-1.5 shadow-lg shadow-indigo-500/20 font-outfit"
                   >
                     <FaEdit /> Edit Profile
                   </button>
@@ -301,8 +270,8 @@ const Profile = () => {
               <div className="space-y-6">
                 
                 {/* Details Box */}
-                <div className="bg-slate-950/40 border border-slate-800/80 rounded-2xl p-5 space-y-4">
-                  <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-400 border-b border-slate-850 pb-2">Background</h3>
+                <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-5 space-y-4">
+                  <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-400 border-b border-white/5 pb-2 font-outfit">Background</h3>
                   
                   {isEditing ? (
                     <div className="space-y-3 text-xs">
@@ -310,7 +279,7 @@ const Profile = () => {
                         <label className="block text-slate-400 mb-1">Display Name</label>
                         <input
                           type="text"
-                          className="w-full bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-white text-xs"
+                          className="premium-input w-full px-2.5 py-1.5 text-xs"
                           value={editForm.name}
                           onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
                         />
@@ -319,7 +288,7 @@ const Profile = () => {
                         <label className="block text-slate-400 mb-1">College/School</label>
                         <input
                           type="text"
-                          className="w-full bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-white text-xs"
+                          className="premium-input w-full px-2.5 py-1.5 text-xs"
                           value={editForm.college}
                           onChange={(e) => setEditForm({ ...editForm, college: e.target.value })}
                         />
@@ -328,7 +297,7 @@ const Profile = () => {
                         <label className="block text-slate-400 mb-1">City</label>
                         <input
                           type="text"
-                          className="w-full bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-white text-xs"
+                          className="premium-input w-full px-2.5 py-1.5 text-xs"
                           value={editForm.city}
                           onChange={(e) => setEditForm({ ...editForm, city: e.target.value })}
                         />
@@ -336,7 +305,7 @@ const Profile = () => {
                       <div>
                         <label className="block text-slate-400 mb-1">Year of Study</label>
                         <select
-                          className="w-full bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-white text-xs"
+                          className="premium-input w-full px-2.5 py-1.5 text-xs"
                           value={editForm.yearOfStudy}
                           onChange={(e) => setEditForm({ ...editForm, yearOfStudy: e.target.value })}
                         >
@@ -374,15 +343,15 @@ const Profile = () => {
                 </div>
 
                 {/* Collaboration Box */}
-                <div className="bg-slate-950/40 border border-slate-800/80 rounded-2xl p-5 space-y-4">
-                  <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-400 border-b border-slate-850 pb-2">Status & Availability</h3>
+                <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-5 space-y-4">
+                  <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-400 border-b border-white/5 pb-2 font-outfit">Status & Availability</h3>
                   
                   {isEditing ? (
                     <div className="space-y-3 text-xs">
                       <div>
                         <label className="block text-slate-400 mb-1">Role Title</label>
                         <select
-                          className="w-full bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-white text-xs"
+                          className="premium-input w-full px-2.5 py-1.5 text-xs"
                           value={editForm.role}
                           onChange={(e) => setEditForm({ ...editForm, role: e.target.value })}
                         >
@@ -392,7 +361,7 @@ const Profile = () => {
                       <div>
                         <label className="block text-slate-400 mb-1">Experience Level</label>
                         <select
-                          className="w-full bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-white text-xs"
+                          className="premium-input w-full px-2.5 py-1.5 text-xs"
                           value={editForm.experienceLevel}
                           onChange={(e) => setEditForm({ ...editForm, experienceLevel: e.target.value })}
                         >
@@ -402,7 +371,7 @@ const Profile = () => {
                       <div>
                         <label className="block text-slate-400 mb-1">Availability Status</label>
                         <select
-                          className="w-full bg-slate-900 border border-slate-800 rounded px-2.5 py-1.5 text-white text-xs"
+                          className="premium-input w-full px-2.5 py-1.5 text-xs"
                           value={editForm.availability}
                           onChange={(e) => setEditForm({ ...editForm, availability: e.target.value })}
                         >
@@ -415,7 +384,7 @@ const Profile = () => {
                           type="button"
                           onClick={() => setEditForm({ ...editForm, profileVisibility: !editForm.profileVisibility })}
                           className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors ${
-                            editForm.profileVisibility ? 'bg-blue-600' : 'bg-slate-800'
+                            editForm.profileVisibility ? 'bg-indigo-500' : 'bg-white/10'
                           }`}
                         >
                           <span className={`inline-block h-3.5 w-3.5 transform rounded-full bg-white transition-transform ${
@@ -428,7 +397,7 @@ const Profile = () => {
                     <div className="space-y-3">
                       <div>
                         <span className="block text-xs text-slate-400">Collaboration State</span>
-                        <span className="inline-block mt-1 text-xs font-bold px-3 py-1 rounded-full bg-blue-500/20 text-blue-400">
+                        <span className="inline-block mt-1 text-xs font-bold px-3 py-1 rounded-full bg-indigo-500/15 text-indigo-400 border border-indigo-500/20">
                           {user.availability}
                         </span>
                       </div>
@@ -448,12 +417,12 @@ const Profile = () => {
               <div className="md:col-span-2 space-y-6">
                 
                 {/* Bio Panel */}
-                <div className="bg-slate-950/40 border border-slate-800/80 rounded-2xl p-6 space-y-3">
-                  <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-400 border-b border-slate-850 pb-2">Bio</h3>
+                <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 space-y-3">
+                  <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-400 border-b border-white/5 pb-2 font-outfit">Bio</h3>
                   {isEditing ? (
                     <textarea
                       rows={3}
-                      className="w-full bg-slate-900 border border-slate-800 rounded-lg p-2.5 text-white text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 resize-none"
+                      className="premium-input w-full p-2.5 text-sm resize-none"
                       value={editForm.bio}
                       onChange={(e) => setEditForm({ ...editForm, bio: e.target.value })}
                     />
@@ -465,11 +434,11 @@ const Profile = () => {
                 </div>
 
                 {/* Skills & Tech Stack Editor */}
-                <div className="bg-slate-950/40 border border-slate-800/80 rounded-2xl p-6 space-y-6">
+                <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 space-y-6">
                   
                   {/* Skills Section */}
                   <div className="space-y-3">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">Skills</h4>
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 font-outfit">Skills</h4>
                     {isEditing ? (
                       <div className="space-y-3">
                         <div className="flex flex-wrap gap-1.5">
@@ -481,7 +450,7 @@ const Profile = () => {
                                 type="button"
                                 onClick={() => handleToggleTag('skills', skill)}
                                 className={`text-[10px] px-2.5 py-1 rounded-full border transition-all ${
-                                  selected ? 'bg-blue-600 border-blue-600 text-white' : 'bg-slate-900 border-slate-800 text-slate-400'
+                                  selected ? 'bg-indigo-500/15 border-indigo-500/40 text-indigo-300' : 'bg-white/[0.02] border-white/5 text-slate-400'
                                 }`}
                               >
                                 {skill}
@@ -493,7 +462,7 @@ const Profile = () => {
                           <input
                             type="text"
                             placeholder="Add custom skill tag"
-                            className="bg-slate-900 border border-slate-800 text-xs rounded-lg px-3 py-1.5 flex-grow text-white"
+                            className="premium-input text-xs px-3 py-1.5 flex-grow"
                             value={customSkill}
                             onChange={(e) => setCustomSkill(e.target.value)}
                             onKeyDown={e => {
@@ -506,16 +475,16 @@ const Profile = () => {
                           <button
                             type="button"
                             onClick={() => handleAddCustomTag('skills', customSkill, setCustomSkill)}
-                            className="bg-slate-800 text-white text-xs border border-slate-700 px-3 rounded-lg hover:bg-slate-700"
+                            className="bg-white/5 hover:bg-white/10 text-white text-xs border border-white/10 px-3 rounded-lg"
                           >
                             Add
                           </button>
                         </div>
                         <div className="flex flex-wrap gap-1">
                           {editForm.skills.map(s => (
-                            <span key={s} className="bg-blue-950/50 text-blue-300 text-[10px] px-2 py-0.5 rounded border border-blue-800/40 flex items-center gap-1">
+                            <span key={s} className="bg-indigo-500/10 text-indigo-300 text-[10px] px-2 py-0.5 rounded border border-indigo-500/20 flex items-center gap-1">
                               {s}
-                              <button type="button" onClick={() => handleToggleTag('skills', s)} className="text-xs text-blue-400 hover:text-blue-200">&times;</button>
+                              <button type="button" onClick={() => handleToggleTag('skills', s)} className="text-xs text-indigo-400 hover:text-indigo-200">×</button>
                             </span>
                           ))}
                         </div>
@@ -524,7 +493,7 @@ const Profile = () => {
                       <div className="flex flex-wrap gap-1.5">
                         {user.skills && user.skills.length > 0 ? (
                           user.skills.map(skill => (
-                            <span key={skill} className="bg-blue-900/20 text-blue-400 border border-blue-800/30 text-xs px-3 py-1 rounded-md font-medium">
+                            <span key={skill} className="bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 text-xs px-3 py-1 rounded-md font-medium">
                               {skill}
                             </span>
                           ))
@@ -537,7 +506,7 @@ const Profile = () => {
 
                   {/* Tech Stack Section */}
                   <div className="space-y-3">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400">Tech Stack</h4>
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 font-outfit">Tech Stack</h4>
                     {isEditing ? (
                       <div className="space-y-3">
                         <div className="flex flex-wrap gap-1.5">
@@ -549,7 +518,7 @@ const Profile = () => {
                                 type="button"
                                 onClick={() => handleToggleTag('techStack', tech)}
                                 className={`text-[10px] px-2.5 py-1 rounded-full border transition-all ${
-                                  selected ? 'bg-emerald-600 border-emerald-600 text-white' : 'bg-slate-900 border-slate-800 text-slate-400'
+                                  selected ? 'bg-emerald-500/15 border-emerald-500/40 text-emerald-300' : 'bg-white/[0.02] border-white/5 text-slate-400'
                                 }`}
                               >
                                 {tech}
@@ -561,7 +530,7 @@ const Profile = () => {
                           <input
                             type="text"
                             placeholder="Add custom tech tag"
-                            className="bg-slate-900 border border-slate-800 text-xs rounded-lg px-3 py-1.5 flex-grow text-white"
+                            className="premium-input text-xs px-3 py-1.5 flex-grow"
                             value={customTech}
                             onChange={(e) => setCustomTech(e.target.value)}
                             onKeyDown={e => {
@@ -574,16 +543,16 @@ const Profile = () => {
                           <button
                             type="button"
                             onClick={() => handleAddCustomTag('techStack', customTech, setCustomTech)}
-                            className="bg-slate-800 text-white text-xs border border-slate-700 px-3 rounded-lg hover:bg-slate-700"
+                            className="bg-white/5 hover:bg-white/10 text-white text-xs border border-white/10 px-3 rounded-lg"
                           >
                             Add
                           </button>
                         </div>
                         <div className="flex flex-wrap gap-1">
                           {editForm.techStack.map(t => (
-                            <span key={t} className="bg-emerald-950/50 text-emerald-300 text-[10px] px-2 py-0.5 rounded border border-emerald-800/40 flex items-center gap-1">
+                            <span key={t} className="bg-emerald-500/10 text-emerald-300 text-[10px] px-2 py-0.5 rounded border border-emerald-500/20 flex items-center gap-1">
                               {t}
-                              <button type="button" onClick={() => handleToggleTag('techStack', t)} className="text-xs text-emerald-400 hover:text-emerald-200">&times;</button>
+                              <button type="button" onClick={() => handleToggleTag('techStack', t)} className="text-xs text-emerald-400 hover:text-emerald-200">×</button>
                             </span>
                           ))}
                         </div>
@@ -592,7 +561,7 @@ const Profile = () => {
                       <div className="flex flex-wrap gap-1.5">
                         {user.techStack && user.techStack.length > 0 ? (
                           user.techStack.map(tech => (
-                            <span key={tech} className="bg-emerald-900/20 text-emerald-400 border border-emerald-800/30 text-xs px-3 py-1 rounded-md font-medium">
+                            <span key={tech} className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-xs px-3 py-1 rounded-md font-medium">
                               {tech}
                             </span>
                           ))
@@ -605,9 +574,9 @@ const Profile = () => {
                 </div>
 
                 {/* GitHub Integration Panel */}
-                <div className="bg-slate-950/40 border border-slate-800/80 rounded-2xl p-6 space-y-4">
-                  <div className="flex justify-between items-center border-b border-slate-850 pb-2">
-                    <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 space-y-4">
+                  <div className="flex justify-between items-center border-b border-white/5 pb-2">
+                    <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-1.5 font-outfit">
                       <FaGithub /> GitHub Stats
                     </h3>
                   </div>
@@ -617,12 +586,12 @@ const Profile = () => {
                       <label className="block text-xs text-slate-400 mb-1">GitHub Username</label>
                       <input
                         type="text"
-                        className="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-white text-sm"
+                        className="premium-input w-full px-3 py-2 text-sm"
                         placeholder="username"
                         value={editForm.githubUsername}
                         onChange={(e) => setEditForm({ ...editForm, githubUsername: e.target.value })}
                       />
-                      <p className="text-[10px] text-slate-500 mt-1">Changing username will auto-fetch and sync stats upon saving.</p>
+                      <p className="text-[10px] text-slate-500 mt-1 font-outfit">Changing username will auto-fetch and sync stats upon saving.</p>
                     </div>
                   ) : user.githubUsername ? (
                     <GitHubStats
@@ -631,8 +600,8 @@ const Profile = () => {
                       username={user.githubUsername}
                     />
                   ) : (
-                    <div className="text-center py-4 bg-slate-900/30 border border-slate-850 rounded-xl">
-                      <p className="text-xs text-slate-500 italic">No GitHub account linked. Toggle edit mode to link your account.</p>
+                    <div className="text-center py-4 bg-white/[0.02] border border-white/5 rounded-xl">
+                      <p className="text-xs text-slate-500 italic font-outfit">No GitHub account linked. Toggle edit mode to link your account.</p>
                     </div>
                   )}
                 </div>
@@ -643,10 +612,10 @@ const Profile = () => {
 
           </div>
 
-        </div>
-
       </div>
     </div>
+  </div>
+</div>
   );
 };
 

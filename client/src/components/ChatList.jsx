@@ -64,10 +64,10 @@ const ChatList = ({ chats, selectedChatId, onSelectChat, currentUserId }) => {
       <button
         key={chat._id}
         onClick={() => onSelectChat(chat)}
-        className={`w-full flex items-start gap-3 p-3 rounded-xl transition-all border text-left group ${
+        className={`w-full flex items-start gap-3.5 p-3 rounded-2xl transition-all border text-left group cursor-pointer ${
           isSelected
-            ? 'bg-slate-900 border-slate-800 text-white shadow-lg shadow-black/10'
-            : 'bg-slate-950/40 border-transparent text-slate-300 hover:bg-slate-900/40 hover:text-white'
+            ? 'bg-indigo-950/20 border-indigo-500/20 text-white shadow-lg shadow-indigo-500/5'
+            : 'bg-transparent border-transparent text-slate-400 hover:bg-slate-900/40 hover:text-slate-200'
         }`}
       >
         {/* Avatar Container */}
@@ -76,12 +76,16 @@ const ChatList = ({ chats, selectedChatId, onSelectChat, currentUserId }) => {
             <img
               src={avatar}
               alt={title}
-              className={`w-11 h-11 object-cover ${isTeam ? 'rounded-xl' : 'rounded-full'}`}
+              className={`w-11 h-11 object-cover ${
+                isTeam
+                  ? 'rounded-xl'
+                  : 'rounded-2xl ring-2 ring-transparent group-hover:ring-indigo-500/20 transition-all'
+              }`}
             />
           ) : (
             <div
-              className={`w-11 h-11 flex items-center justify-center font-bold text-sm bg-gradient-to-br from-indigo-500/20 to-purple-500/20 text-indigo-300 border border-indigo-500/10 ${
-                isTeam ? 'rounded-xl' : 'rounded-full'
+              className={`w-11 h-11 flex items-center justify-center font-bold text-xs bg-indigo-500/10 text-indigo-300 border border-indigo-500/10 ${
+                isTeam ? 'rounded-xl' : 'rounded-2xl'
               }`}
             >
               {fallbackText}
@@ -90,27 +94,29 @@ const ChatList = ({ chats, selectedChatId, onSelectChat, currentUserId }) => {
           
           {/* Active green dot overlay for DMs */}
           {!isTeam && partner && partner.status === 'Online' && (
-            <span className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-slate-950 rounded-full" />
+            <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border-2 border-slate-950 rounded-full shadow-md" />
           )}
         </div>
 
         {/* Info */}
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center justify-between gap-1.5 mb-1">
-            <span className="font-semibold text-sm truncate group-hover:text-white transition-colors">
+        <div className="flex-grow min-w-0">
+          <div className="flex items-center justify-between gap-1.5 mb-1.5">
+            <span className={`font-outfit text-sm font-semibold truncate transition-colors ${
+              isSelected ? 'text-white' : 'text-slate-300 group-hover:text-white'
+            }`}>
               {title}
             </span>
-            <span className="text-[10px] text-slate-500 shrink-0 font-medium">
+            <span className="text-[9px] font-sans text-slate-500 shrink-0 font-medium">
               {lastMsgTime}
             </span>
           </div>
 
           <div className="flex items-center justify-between gap-2">
-            <p className="text-xs text-slate-400 truncate flex-1 font-medium">
+            <p className="text-xs text-slate-400 truncate flex-grow font-medium leading-tight">
               {preview}
             </p>
             {unread > 0 && (
-              <span className="h-5 px-1.5 min-w-5 flex items-center justify-center text-[10px] font-bold bg-indigo-600 text-white rounded-full shrink-0 animate-pulse">
+              <span className="h-5 px-1.5 min-w-5 flex items-center justify-center text-[9px] font-cabinet font-black bg-indigo-600 text-white rounded-full shrink-0 shadow-md shadow-indigo-600/20">
                 {unread}
               </span>
             )}
@@ -118,12 +124,12 @@ const ChatList = ({ chats, selectedChatId, onSelectChat, currentUserId }) => {
 
           {/* User Active text if DM */}
           {!isTeam && partner && (
-            <div className="mt-1.5">
+            <div className="mt-1.5 opacity-80">
               <OnlineStatus
                 status={partner.status}
                 lastActive={partner.lastActive}
                 showText={true}
-                className="text-[10px] opacity-70"
+                className="text-[9px]"
               />
             </div>
           )}
@@ -133,21 +139,21 @@ const ChatList = ({ chats, selectedChatId, onSelectChat, currentUserId }) => {
   };
 
   return (
-    <div className="h-full flex flex-col overflow-hidden">
-      <div className="p-4 border-b border-slate-800 shrink-0">
-        <h2 className="text-base font-bold text-white bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">
-          Conversations
+    <div className="h-full flex flex-col overflow-hidden bg-slate-950/40">
+      <div className="p-5 border-b border-white/5 shrink-0">
+        <h2 className="text-base font-cabinet font-black tracking-wide text-white">
+          Inbox
         </h2>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-3 space-y-4 custom-scrollbar">
+      <div className="flex-grow overflow-y-auto p-3.5 space-y-4 custom-scrollbar">
         {/* Teams Chats Section */}
         {teamChats.length > 0 && (
           <div>
-            <div className="px-2 mb-2 text-[10px] font-bold text-slate-500 tracking-wider uppercase">
+            <div className="px-2.5 mb-2.5 text-[9px] font-cabinet font-black text-slate-500 tracking-wider uppercase">
               Team Rooms ({teamChats.length})
             </div>
-            <div className="space-y-1.5">
+            <div className="space-y-1">
               {teamChats.map(renderChatItem)}
             </div>
           </div>
@@ -155,15 +161,15 @@ const ChatList = ({ chats, selectedChatId, onSelectChat, currentUserId }) => {
 
         {/* Direct Messages Section */}
         <div>
-          <div className="px-2 mb-2 text-[10px] font-bold text-slate-500 tracking-wider uppercase">
+          <div className="px-2.5 mb-2.5 text-[9px] font-cabinet font-black text-slate-500 tracking-wider uppercase">
             Direct Messages ({directChats.length})
           </div>
           {directChats.length > 0 ? (
-            <div className="space-y-1.5">
+            <div className="space-y-1">
               {directChats.map(renderChatItem)}
             </div>
           ) : (
-            <div className="p-4 text-center text-xs text-slate-500 italic bg-slate-900/20 border border-dashed border-slate-800/60 rounded-xl">
+            <div className="p-5 text-center text-xs font-sans text-slate-400 bg-slate-900/10 border border-white/5 rounded-2xl leading-relaxed">
               No direct messages yet. Match with other hackers to start chatting!
             </div>
           )}

@@ -1,4 +1,5 @@
 import { Chat, Message, User } from '../models/index.js';
+import { createNotification } from '../services/notificationService.js';
 
 /**
  * Get all chats for the logged in user
@@ -153,6 +154,20 @@ export const sendMessage = async (req, res) => {
     if (io) {
       io.to(chatId).emit('message:new', message);
     }
+
+    // Create notifications for other participants
+    const otherParticipants = chat.participants.filter(p => p.toString() !== userId.toString());
+    await Promise.all(
+      otherParticipants.map(p =>
+        createNotification(
+          p,
+          userId,
+          'message',
+          content || 'Sent an attachment',
+          { chatId: chat._id, messageId: message._id }
+        )
+      )
+    );
 
     return res.status(201).json({ message });
   } catch (error) {

@@ -187,22 +187,25 @@ const Onboarding = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-blue-905 flex flex-col justify-center items-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="relative min-h-screen bg-[#030014] flex flex-col justify-center items-center py-12 px-4 sm:px-6 lg:px-8 overflow-hidden font-sans">
+      {/* Background Decorative Ambient Blurs */}
+      <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-indigo-500/10 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-emerald-500/10 blur-[120px] pointer-events-none" />
       
       {/* Header and Stepper */}
-      <div className="w-full max-w-2xl text-center mb-8">
-        <h1 className="text-3xl font-extrabold text-white tracking-tight sm:text-4xl bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">
+      <div className="relative w-full max-w-2xl text-center mb-8 z-10">
+        <h1 className="text-3xl font-bold text-white tracking-tight sm:text-4xl font-cabinet bg-gradient-to-r from-indigo-400 via-purple-400 to-emerald-400 bg-clip-text text-transparent">
           Welcome to HackMate AI
         </h1>
-        <p className="mt-2 text-sm text-slate-300">
+        <p className="mt-2 text-sm text-slate-400 font-outfit">
           Let's set up your profile to match you with the perfect hackathon teammates.
         </p>
 
         {/* Custom Progress Stepper */}
-        <div className="mt-8 flex items-center justify-between relative">
-          <div className="absolute left-0 right-0 top-1/2 h-1 bg-slate-700 -translate-y-1/2 z-0 rounded-full" />
+        <div className="mt-10 flex items-center justify-between relative px-2">
+          <div className="absolute left-0 right-0 top-1/2 h-[2px] bg-white/5 -translate-y-1/2 z-0 rounded-full" />
           <div 
-            className="absolute left-0 top-1/2 h-1 bg-gradient-to-r from-blue-500 to-emerald-500 -translate-y-1/2 z-0 rounded-full transition-all duration-300"
+            className="absolute left-0 top-1/2 h-[2px] bg-gradient-to-r from-indigo-500 to-emerald-500 -translate-y-1/2 z-0 rounded-full transition-all duration-500"
             style={{ width: `${((step - 1) / 5) * 100}%` }}
           />
 
@@ -218,15 +221,15 @@ const Onboarding = () => {
                   disabled={idx + 1 >= step}
                   className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all duration-300 ${
                     isCurrent 
-                      ? 'bg-blue-500 text-white ring-4 ring-blue-500/30' 
+                      ? 'bg-indigo-500 text-white ring-4 ring-indigo-500/35 shadow-lg shadow-indigo-500/20' 
                       : isActive 
-                        ? 'bg-emerald-500 text-white cursor-pointer' 
-                        : 'bg-slate-800 text-slate-400 border border-slate-700'
+                        ? 'bg-emerald-500/10 border border-emerald-500 text-emerald-400 hover:bg-emerald-500/20 cursor-pointer shadow-lg shadow-emerald-500/5' 
+                        : 'bg-[#0b0825] text-slate-500 border border-white/5 cursor-not-allowed'
                   }`}
                 >
                   <Icon className="text-sm" />
                 </button>
-                <span className={`mt-2 text-xs font-medium hidden sm:block ${isCurrent ? 'text-blue-400 font-semibold' : isActive ? 'text-emerald-400' : 'text-slate-500'}`}>
+                <span className={`mt-2 text-[10px] sm:text-xs font-medium tracking-wide hidden sm:block font-outfit ${isCurrent ? 'text-indigo-400 font-bold' : isActive ? 'text-emerald-400' : 'text-slate-500'}`}>
                   {item.label}
                 </span>
               </div>
@@ -236,14 +239,14 @@ const Onboarding = () => {
       </div>
 
       {/* Main Glassmorphic Form Card */}
-      <div className="bg-slate-900/60 backdrop-blur-xl border border-slate-800/80 shadow-2xl rounded-2xl p-8 max-w-2xl w-full relative overflow-hidden">
+      <div className="relative w-full max-w-2xl glass-panel card-glow-indigo p-8 sm:p-10 rounded-2xl border border-white/5 shadow-2xl overflow-hidden z-10">
         
         {/* Skip button on top corner */}
         <button
           type="button"
           onClick={handleSkip}
           disabled={loading}
-          className="absolute top-4 right-4 text-xs font-semibold text-slate-400 hover:text-slate-200 transition-colors uppercase tracking-wider bg-slate-800/40 hover:bg-slate-800 px-3 py-1.5 rounded-full"
+          className="absolute top-4 right-4 text-[10px] font-semibold text-slate-400 hover:text-slate-200 transition-colors uppercase tracking-wider bg-white/5 hover:bg-white/10 border border-white/10 px-3.5 py-1.5 rounded-full"
         >
           Skip for now
         </button>
@@ -252,23 +255,23 @@ const Onboarding = () => {
           <AnimatePresence mode="wait">
             <motion.div
               key={step}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.2 }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.25 }}
             >
               
               {/* STEP 1: Name and Avatar */}
               {step === 1 && (
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-xl font-bold text-white mb-1">Let's start with your identity</h3>
-                    <p className="text-xs text-slate-400">Fill in your basic information to get recognized.</p>
+                    <h3 className="text-xl font-bold text-white mb-1 font-cabinet">Let's start with your identity</h3>
+                    <p className="text-xs text-slate-400 font-outfit">Fill in your basic information to get recognized.</p>
                   </div>
 
                   {/* Avatar Upload Container */}
                   <div className="flex flex-col items-center justify-center py-4">
-                    <div className="relative group cursor-pointer w-32 h-32 rounded-full overflow-hidden bg-slate-800 border-2 border-dashed border-slate-600 hover:border-blue-500 transition-all flex items-center justify-center">
+                    <div className="relative group cursor-pointer w-32 h-32 rounded-full overflow-hidden bg-slate-950 border-2 border-dashed border-white/10 hover:border-indigo-500 transition-all flex items-center justify-center shadow-inner">
                       {formData.avatar.secureUrl ? (
                         <img 
                           src={formData.avatar.secureUrl} 
@@ -276,14 +279,14 @@ const Onboarding = () => {
                           className="w-full h-full object-cover" 
                         />
                       ) : (
-                        <div className="text-center text-slate-500">
-                          <FaCamera className="mx-auto text-2xl mb-1 text-slate-400" />
-                          <span className="text-xs">Photo</span>
+                        <div className="text-center text-slate-400 transition-colors group-hover:text-indigo-400">
+                          <FaCamera className="mx-auto text-2xl mb-1.5" />
+                          <span className="text-[10px] uppercase tracking-wider font-semibold">Upload Photo</span>
                         </div>
                       )}
                       
                       {uploadingImage && (
-                        <div className="absolute inset-0 bg-slate-905/70 flex items-center justify-center">
+                        <div className="absolute inset-0 bg-slate-955/80 flex items-center justify-center">
                           <FaSpinner className="animate-spin text-white text-2xl" />
                         </div>
                       )}
@@ -295,19 +298,19 @@ const Onboarding = () => {
                         className="absolute inset-0 opacity-0 cursor-pointer" 
                       />
                     </div>
-                    <p className="text-xs text-slate-400 mt-2">Click to upload your profile picture</p>
+                    <p className="text-[11px] text-slate-500 mt-3 font-outfit">Click card area above to upload image</p>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">Full Name *</label>
+                    <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 font-outfit">Full Name *</label>
                     <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                         <FaUser className="text-slate-500 text-sm" />
                       </div>
                       <input
                         type="text"
                         required
-                        className="block w-full pl-10 pr-3 py-2.5 bg-slate-950/50 border border-slate-800 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:text-sm"
+                        className="premium-input block w-full pl-10 pr-4 py-3 text-sm"
                         placeholder="e.g. John Doe"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -321,35 +324,35 @@ const Onboarding = () => {
               {step === 2 && (
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-xl font-bold text-white mb-1">Tell us about yourself</h3>
-                    <p className="text-xs text-slate-400">Share your background and current location.</p>
+                    <h3 className="text-xl font-bold text-white mb-1 font-cabinet">Tell us about yourself</h3>
+                    <p className="text-xs text-slate-400 font-outfit">Share your background and current location.</p>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">Bio</label>
+                    <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 font-outfit">Bio</label>
                     <textarea
                       rows={3}
                       maxLength={300}
-                      className="block w-full px-3 py-2.5 bg-slate-950/50 border border-slate-800 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:text-sm resize-none"
+                      className="premium-input block w-full px-4 py-3 text-sm resize-none"
                       placeholder="Share a brief bio (interests, focus areas)..."
                       value={formData.bio}
                       onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
                     />
-                    <div className="text-right text-xs text-slate-500 mt-1">
+                    <div className="text-right text-[10px] text-slate-500 mt-1 font-outfit">
                       {formData.bio.length}/300
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     <div>
-                      <label className="block text-sm font-medium text-slate-300 mb-2">College Name</label>
+                      <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 font-outfit">College Name</label>
                       <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                           <FaGraduationCap className="text-slate-500 text-sm" />
                         </div>
                         <input
                           type="text"
-                          className="block w-full pl-10 pr-3 py-2.5 bg-slate-950/50 border border-slate-800 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:text-sm"
+                          className="premium-input block w-full pl-10 pr-4 py-3 text-sm"
                           placeholder="University Name"
                           value={formData.college}
                           onChange={(e) => setFormData({ ...formData, college: e.target.value })}
@@ -358,14 +361,14 @@ const Onboarding = () => {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-slate-300 mb-2">City</label>
+                      <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 font-outfit">City</label>
                       <div className="relative">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                           <FaMapMarkerAlt className="text-slate-500 text-sm" />
                         </div>
                         <input
                           type="text"
-                          className="block w-full pl-10 pr-3 py-2.5 bg-slate-950/50 border border-slate-800 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:text-sm"
+                          className="premium-input block w-full pl-10 pr-4 py-3 text-sm"
                           placeholder="e.g. New York"
                           value={formData.city}
                           onChange={(e) => setFormData({ ...formData, city: e.target.value })}
@@ -375,18 +378,18 @@ const Onboarding = () => {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">Year of Study</label>
+                    <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 font-outfit">Year of Study</label>
                     <select
-                      className="block w-full px-3 py-2.5 bg-slate-950/50 border border-slate-800 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:text-sm"
+                      className="premium-input block w-full px-4 py-3 text-sm bg-[#090622] text-white"
                       value={formData.yearOfStudy}
                       onChange={(e) => setFormData({ ...formData, yearOfStudy: e.target.value })}
                     >
-                      <option value="1st Year">1st Year</option>
-                      <option value="2nd Year">2nd Year</option>
-                      <option value="3rd Year">3rd Year</option>
-                      <option value="4th Year">4th Year</option>
-                      <option value="Graduate">Graduate</option>
-                      <option value="Other">Other</option>
+                      <option className="bg-[#0c0a21]" value="1st Year">1st Year</option>
+                      <option className="bg-[#0c0a21]" value="2nd Year">2nd Year</option>
+                      <option className="bg-[#0c0a21]" value="3rd Year">3rd Year</option>
+                      <option className="bg-[#0c0a21]" value="4th Year">4th Year</option>
+                      <option className="bg-[#0c0a21]" value="Graduate">Graduate</option>
+                      <option className="bg-[#0c0a21]" value="Other">Other</option>
                     </select>
                   </div>
                 </div>
@@ -396,23 +399,23 @@ const Onboarding = () => {
               {step === 3 && (
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-xl font-bold text-white mb-1">Define your professional path</h3>
-                    <p className="text-xs text-slate-400">Select your specialization and comfort level.</p>
+                    <h3 className="text-xl font-bold text-white mb-1 font-cabinet">Define your professional path</h3>
+                    <p className="text-xs text-slate-400 font-outfit">Select your specialization and comfort level.</p>
                   </div>
 
                   {/* Custom Card Selector for Roles */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-3 font-semibold">Primary Role</label>
+                    <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 font-outfit">Primary Role</label>
                     <div className="grid grid-cols-2 gap-4">
                       {ROLE_OPTIONS.map((r) => (
                         <button
                           key={r}
                           type="button"
                           onClick={() => setFormData({ ...formData, role: r })}
-                          className={`p-4 rounded-xl border text-center font-medium transition-all ${
+                          className={`p-4 rounded-xl border text-center font-semibold transition-all duration-305 ${
                             formData.role === r 
-                              ? 'bg-blue-500/20 border-blue-500 text-blue-400 ring-2 ring-blue-500/30' 
-                              : 'bg-slate-950/50 border-slate-800 text-slate-400 hover:border-slate-700'
+                              ? 'bg-indigo-500/10 border-indigo-500 text-indigo-400 shadow-[0_0_15px_rgba(99,102,241,0.15)] ring-1 ring-indigo-500/30' 
+                              : 'bg-slate-950/40 border-white/5 text-slate-400 hover:border-white/10 hover:text-slate-300'
                           }`}
                         >
                           {r}
@@ -423,17 +426,17 @@ const Onboarding = () => {
 
                   {/* Experience Selector */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-3 font-semibold">Experience Level</label>
+                    <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 font-outfit">Experience Level</label>
                     <div className="grid grid-cols-3 gap-4">
                       {EXPERIENCE_OPTIONS.map((e) => (
                         <button
                           key={e}
                           type="button"
                           onClick={() => setFormData({ ...formData, experienceLevel: e })}
-                          className={`p-3 rounded-xl border text-center text-sm font-medium transition-all ${
+                          className={`p-3 rounded-xl border text-center text-sm font-semibold transition-all duration-305 ${
                             formData.experienceLevel === e 
-                              ? 'bg-emerald-500/20 border-emerald-500 text-emerald-400 ring-2 ring-emerald-500/30' 
-                              : 'bg-slate-950/50 border-slate-800 text-slate-400 hover:border-slate-700'
+                              ? 'bg-emerald-500/10 border-emerald-500 text-emerald-400 shadow-[0_0_15px_rgba(16,185,129,0.15)] ring-1 ring-emerald-500/30' 
+                              : 'bg-slate-950/40 border-white/5 text-slate-400 hover:border-white/10 hover:text-slate-300'
                           }`}
                         >
                           {e}
@@ -448,13 +451,13 @@ const Onboarding = () => {
               {step === 4 && (
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-xl font-bold text-white mb-1">Detail your toolkit</h3>
-                    <p className="text-xs text-slate-400">Choose tags or add custom skills you possess.</p>
+                    <h3 className="text-xl font-bold text-white mb-1 font-cabinet">Detail your toolkit</h3>
+                    <p className="text-xs text-slate-400 font-outfit">Choose tags or add custom skills you possess.</p>
                   </div>
 
                   {/* Skills Container */}
                   <div className="space-y-3">
-                    <label className="block text-sm font-medium text-slate-300 font-semibold">Skills</label>
+                    <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider font-outfit">Skills</label>
                     
                     {/* Pre-defined popular skill options */}
                     <div className="flex flex-wrap gap-2">
@@ -467,8 +470,8 @@ const Onboarding = () => {
                             onClick={() => handleToggleTag('skills', tag)}
                             className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
                               selected
-                                ? 'bg-blue-500 text-white'
-                                : 'bg-slate-800 text-slate-300 border border-slate-700 hover:border-slate-600'
+                                ? 'bg-indigo-500 text-white shadow-[0_0_10px_rgba(99,102,241,0.2)]'
+                                : 'bg-[#0d0a2d]/60 text-slate-300 border border-white/5 hover:border-white/15 hover:bg-[#130f3c]/60'
                             }`}
                           >
                             {tag}
@@ -481,7 +484,7 @@ const Onboarding = () => {
                     <div className="flex gap-2">
                       <input
                         type="text"
-                        className="block w-full px-3 py-2 bg-slate-950/50 border border-slate-800 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-transparent sm:text-sm"
+                        className="premium-input block w-full px-3 py-2 text-sm"
                         placeholder="Add custom skill..."
                         value={customSkill}
                         onChange={(e) => setCustomSkill(e.target.value)}
@@ -495,7 +498,7 @@ const Onboarding = () => {
                       <button
                         type="button"
                         onClick={() => handleAddCustomTag('skills', customSkill, setCustomSkill)}
-                        className="bg-slate-800 hover:bg-slate-700 text-white px-4 rounded-lg text-sm transition-colors border border-slate-700"
+                        className="bg-white/5 hover:bg-white/10 text-white border border-white/10 px-4 rounded-xl text-sm font-semibold transition-colors"
                       >
                         Add
                       </button>
@@ -503,14 +506,14 @@ const Onboarding = () => {
 
                     {/* Selected tags preview */}
                     {formData.skills.length > 0 && (
-                      <div className="border border-slate-800 bg-slate-950/20 rounded-xl p-3 flex flex-wrap gap-1.5">
+                      <div className="border border-white/5 bg-slate-950/20 rounded-xl p-3 flex flex-wrap gap-1.5">
                         {formData.skills.map((tag) => (
-                          <span key={tag} className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-blue-900/40 text-blue-300 border border-blue-800">
+                          <span key={tag} className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-indigo-950/60 text-indigo-300 border border-indigo-850/80">
                             {tag}
                             <button
                               type="button"
                               onClick={() => handleToggleTag('skills', tag)}
-                              className="ml-1.5 text-blue-400 hover:text-blue-200"
+                              className="ml-1.5 text-indigo-400 hover:text-indigo-200"
                             >
                               &times;
                             </button>
@@ -522,7 +525,7 @@ const Onboarding = () => {
 
                   {/* Tech Stack Container */}
                   <div className="space-y-3">
-                    <label className="block text-sm font-medium text-slate-300 font-semibold">Tech Stack</label>
+                    <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider font-outfit">Tech Stack</label>
                     
                     {/* Pre-defined popular tech stack options */}
                     <div className="flex flex-wrap gap-2">
@@ -535,8 +538,8 @@ const Onboarding = () => {
                             onClick={() => handleToggleTag('techStack', tag)}
                             className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
                               selected
-                                ? 'bg-emerald-500 text-white'
-                                : 'bg-slate-800 text-slate-300 border border-slate-700 hover:border-slate-600'
+                                ? 'bg-emerald-500 text-white shadow-[0_0_10px_rgba(16,185,129,0.2)]'
+                                : 'bg-[#0d0a2d]/60 text-slate-300 border border-white/5 hover:border-white/15 hover:bg-[#130f3c]/60'
                             }`}
                           >
                             {tag}
@@ -549,7 +552,7 @@ const Onboarding = () => {
                     <div className="flex gap-2">
                       <input
                         type="text"
-                        className="block w-full px-3 py-2 bg-slate-950/50 border border-slate-800 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-emerald-500 focus:border-transparent sm:text-sm"
+                        className="premium-input block w-full px-3 py-2 text-sm"
                         placeholder="Add custom tech (e.g. Kotlin)..."
                         value={customTech}
                         onChange={(e) => setCustomTech(e.target.value)}
@@ -563,7 +566,7 @@ const Onboarding = () => {
                       <button
                         type="button"
                         onClick={() => handleAddCustomTag('techStack', customTech, setCustomTech)}
-                        className="bg-slate-800 hover:bg-slate-700 text-white px-4 rounded-lg text-sm transition-colors border border-slate-700"
+                        className="bg-white/5 hover:bg-white/10 text-white border border-white/10 px-4 rounded-xl text-sm font-semibold transition-colors"
                       >
                         Add
                       </button>
@@ -571,9 +574,9 @@ const Onboarding = () => {
 
                     {/* Selected tech preview */}
                     {formData.techStack.length > 0 && (
-                      <div className="border border-slate-800 bg-slate-950/20 rounded-xl p-3 flex flex-wrap gap-1.5">
+                      <div className="border border-white/5 bg-slate-950/20 rounded-xl p-3 flex flex-wrap gap-1.5">
                         {formData.techStack.map((tag) => (
-                          <span key={tag} className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-900/40 text-emerald-300 border border-emerald-800">
+                          <span key={tag} className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-950/60 text-emerald-300 border border-emerald-850/80">
                             {tag}
                             <button
                               type="button"
@@ -594,21 +597,21 @@ const Onboarding = () => {
               {step === 5 && (
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-xl font-bold text-white mb-1">GitHub Integration & Collaboration</h3>
-                    <p className="text-xs text-slate-400">Connect GitHub to populate statistics and select your partner requirements.</p>
+                    <h3 className="text-xl font-bold text-white mb-1 font-cabinet">GitHub Integration</h3>
+                    <p className="text-xs text-slate-400 font-outfit">Connect GitHub to populate statistics and select your partner requirements.</p>
                   </div>
 
                   {/* GitHub integration input and fetch button */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">GitHub Username (optional)</label>
+                    <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 font-outfit">GitHub Username (optional)</label>
                     <div className="flex gap-2">
                       <div className="relative flex-grow">
-                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                           <FaGithub className="text-slate-500 text-sm" />
                         </div>
                         <input
                           type="text"
-                          className="block w-full pl-10 pr-3 py-2.5 bg-slate-950/50 border border-slate-800 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:text-sm"
+                          className="premium-input block w-full pl-10 pr-4 py-3 text-sm"
                           placeholder="github_username"
                           value={formData.githubUsername}
                           onChange={(e) => setFormData({ ...formData, githubUsername: e.target.value })}
@@ -618,7 +621,7 @@ const Onboarding = () => {
                         type="button"
                         onClick={fetchGithubPreview}
                         disabled={githubLoading || !formData.githubUsername.trim()}
-                        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg text-sm font-semibold flex items-center gap-2 transition-colors disabled:opacity-50"
+                        className="bg-indigo-500 hover:bg-indigo-650 disabled:opacity-50 disabled:cursor-not-allowed text-white px-5 py-3 rounded-xl text-sm font-semibold flex items-center gap-2 transition-all border border-indigo-400/20 shadow-lg shadow-indigo-500/10 cursor-pointer"
                       >
                         {githubLoading ? (
                           <FaSpinner className="animate-spin text-sm" />
@@ -631,7 +634,7 @@ const Onboarding = () => {
 
                     {/* GitHub verification card error */}
                     {githubError && (
-                      <p className="mt-2 text-xs text-red-400">{githubError}</p>
+                      <p className="mt-2 text-xs text-red-400 font-outfit">{githubError}</p>
                     )}
 
                     {/* GitHub visual stats preview card */}
@@ -651,7 +654,7 @@ const Onboarding = () => {
 
                   {/* Looking For */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-3 font-semibold">Looking For (Role types for teammates)</label>
+                    <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3 font-outfit">Looking For (Role types for teammates)</label>
                     <div className="grid grid-cols-2 gap-3">
                       {ROLE_OPTIONS.map((role) => {
                         const selected = formData.lookingFor.includes(role);
@@ -660,10 +663,10 @@ const Onboarding = () => {
                             key={role}
                             type="button"
                             onClick={() => handleToggleTag('lookingFor', role)}
-                            className={`p-3 rounded-xl border text-center text-sm font-medium transition-all ${
+                            className={`p-3 rounded-xl border text-center text-sm font-semibold transition-all duration-305 ${
                               selected 
-                                ? 'bg-blue-500/20 border-blue-500 text-blue-400 ring-2 ring-blue-500/30' 
-                                : 'bg-slate-950/50 border-slate-800 text-slate-400 hover:border-slate-700'
+                                ? 'bg-indigo-500/10 border-indigo-500 text-indigo-400 shadow-[0_0_15px_rgba(99,102,241,0.15)] ring-1 ring-indigo-500/30' 
+                                : 'bg-slate-950/40 border-white/5 text-slate-400 hover:border-white/10 hover:text-slate-300'
                             }`}
                           >
                             {role}
@@ -679,33 +682,33 @@ const Onboarding = () => {
               {step === 6 && (
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-xl font-bold text-white mb-1">Preferences & Visibility</h3>
-                    <p className="text-xs text-slate-400">Control how other users find you on HackMate.</p>
+                    <h3 className="text-xl font-bold text-white mb-1 font-cabinet">Preferences & Visibility</h3>
+                    <p className="text-xs text-slate-400 font-outfit">Control how other users find you on HackMate.</p>
                   </div>
 
                   {/* Availability Dropdown */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">Availability Status</label>
+                    <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 font-outfit">Availability Status</label>
                     <select
-                      className="block w-full px-3 py-2.5 bg-slate-950/50 border border-slate-800 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent sm:text-sm"
+                      className="premium-input block w-full px-4 py-3 text-sm bg-[#090622] text-white"
                       value={formData.availability}
                       onChange={(e) => setFormData({ ...formData, availability: e.target.value })}
                     >
                       {AVAILABILITY_OPTIONS.map(opt => (
-                        <option key={opt} value={opt}>{opt}</option>
+                        <option className="bg-[#0c0a21]" key={opt} value={opt}>{opt}</option>
                       ))}
                     </select>
                   </div>
 
                   {/* Profile Visibility Toggle */}
-                  <div className="bg-slate-950/50 border border-slate-800 rounded-xl p-4 flex items-center justify-between">
+                  <div className="bg-[#090622]/40 border border-white/5 rounded-xl p-5 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="p-3 bg-slate-900 border border-slate-800 rounded-lg text-blue-400">
+                      <div className="p-3 bg-indigo-500/10 border border-indigo-500/20 rounded-xl text-indigo-400">
                         {formData.profileVisibility ? <FaEye className="text-lg" /> : <FaEyeSlash className="text-lg" />}
                       </div>
                       <div>
-                        <h4 className="text-sm font-bold text-white">Profile Visibility</h4>
-                        <p className="text-xs text-slate-400">
+                        <h4 className="text-sm font-bold text-white font-outfit">Profile Visibility</h4>
+                        <p className="text-xs text-slate-400 font-outfit">
                           {formData.profileVisibility 
                             ? 'Your profile is public. Other users can search and match with you.' 
                             : 'Your profile is private. You will not show up in the discover panel.'}
@@ -717,7 +720,7 @@ const Onboarding = () => {
                         type="button"
                         onClick={() => setFormData({ ...formData, profileVisibility: !formData.profileVisibility })}
                         className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
-                          formData.profileVisibility ? 'bg-blue-600' : 'bg-slate-800'
+                          formData.profileVisibility ? 'bg-indigo-650' : 'bg-slate-800'
                         }`}
                       >
                         <span
@@ -735,13 +738,13 @@ const Onboarding = () => {
           </AnimatePresence>
 
           {/* Stepper Navigation Actions */}
-          <div className="mt-8 flex justify-between items-center border-t border-slate-850 pt-5">
+          <div className="mt-8 flex justify-between items-center border-t border-white/5 pt-5">
             {step > 1 ? (
               <button
                 type="button"
                 onClick={prevStep}
                 disabled={loading}
-                className="inline-flex items-center gap-1.5 px-4 py-2 border border-slate-850 text-slate-300 font-semibold rounded-lg text-sm hover:bg-slate-800 transition-colors"
+                className="inline-flex items-center gap-1.5 px-4 py-2.5 border border-white/5 text-slate-300 font-semibold rounded-xl text-sm hover:bg-[#0a0820]/80 hover:text-white transition-colors cursor-pointer"
               >
                 <FaChevronLeft className="text-xs" /> Back
               </button>
@@ -753,7 +756,7 @@ const Onboarding = () => {
               <button
                 type="button"
                 onClick={nextStep}
-                className="inline-flex items-center gap-1.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2.5 rounded-lg text-sm transition-colors ml-auto"
+                className="inline-flex items-center gap-1.5 bg-indigo-500 hover:bg-indigo-600 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition-all shadow-lg shadow-indigo-500/25 ml-auto cursor-pointer"
               >
                 Next <FaChevronRight className="text-xs" />
               </button>
@@ -761,7 +764,7 @@ const Onboarding = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="inline-flex items-center gap-1.5 bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-700 hover:to-emerald-700 text-white font-bold px-6 py-2.5 rounded-lg text-sm shadow-lg shadow-blue-500/20 transition-all ml-auto disabled:opacity-50"
+                className="inline-flex items-center gap-1.5 bg-gradient-to-r from-indigo-500 to-emerald-500 hover:from-indigo-600 hover:to-emerald-600 text-white font-bold px-6 py-2.5 rounded-xl text-sm shadow-lg shadow-indigo-500/20 transition-all ml-auto disabled:opacity-50 cursor-pointer"
               >
                 {loading ? (
                   <>

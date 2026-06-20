@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
+import Notification from '../models/Notification.js';
 import { generateAccessToken, generateRefreshToken } from '../utils/generateToken.js';
 
 // @desc    Register a new user
@@ -57,6 +58,9 @@ export const login = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (user && user.passwordHash && (await bcrypt.compare(password, user.passwordHash))) {
+      if (user.isBanned) {
+        return res.status(403).json({ message: 'Your account has been banned' });
+      }
       const accessToken = generateAccessToken(user._id);
       generateRefreshToken(res, user._id);
 
@@ -121,7 +125,8 @@ export const getMe = async (req, res) => {
   try {
     const user = await User.findById(req.user._id);
     if (user) {
-      res.json({ user });
+      const unreadCount = await Notification.countDocuments({ receiver: req.user._id, isRead: false });
+      res.json({ user, unreadCount });
     } else {
       res.status(404).json({ message: 'User not found' });
     }
@@ -136,6 +141,10 @@ export const getMe = async (req, res) => {
 export const oauthCallback = (req, res) => {
   if (!req.user) {
     return res.redirect(`${process.env.CLIENT_URL}/login?error=auth_failed`);
+  }
+
+  if (req.user.isBanned) {
+    return res.redirect(`${process.env.CLIENT_URL}/login?error=user_banned`);
   }
 
   // Generate tokens

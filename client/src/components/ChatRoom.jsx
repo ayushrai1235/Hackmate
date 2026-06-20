@@ -23,18 +23,18 @@ const LinkPreview = ({ url }) => {
         href={url}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-2 flex flex-col p-3 rounded-xl bg-slate-900/90 border border-purple-500/20 hover:border-purple-500/40 transition-all text-left"
+        className="mt-2.5 flex flex-col p-3.5 rounded-2xl bg-slate-950/60 border border-purple-500/20 hover:border-purple-500/40 hover:bg-slate-950 transition-all text-left"
       >
-        <div className="flex items-center gap-2 mb-1.5 text-xs text-purple-400 font-semibold">
+        <div className="flex items-center gap-2 mb-1.5 text-xs text-purple-400 font-semibold font-outfit">
           <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
             <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
           </svg>
           GitHub Issue #{issueNum}
         </div>
-        <span className="text-sm font-medium text-white mb-0.5 truncate">
+        <span className="text-sm font-semibold text-white mb-0.5 truncate font-outfit">
           Resolve branch conflicts & clean styling
         </span>
-        <span className="text-[10px] text-slate-400 truncate">
+        <span className="text-[10px] text-slate-400 truncate font-sans">
           {owner}/{repo} • Open
         </span>
       </a>
@@ -50,18 +50,18 @@ const LinkPreview = ({ url }) => {
         href={url}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-2 flex flex-col p-3 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-slate-700 transition-all text-left"
+        className="mt-2.5 flex flex-col p-3.5 rounded-2xl bg-slate-950/60 border border-white/5 hover:border-indigo-500/20 hover:bg-slate-950 transition-all text-left"
       >
-        <div className="flex items-center gap-2 mb-1 text-xs text-slate-300 font-semibold">
+        <div className="flex items-center gap-2 mb-1.5 text-xs text-slate-300 font-semibold font-outfit">
           <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
             <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
           </svg>
           GitHub Repository
         </div>
-        <span className="text-sm font-medium text-white mb-0.5 truncate">
+        <span className="text-sm font-semibold text-white mb-0.5 truncate font-outfit">
           {owner}/{repo}
         </span>
-        <span className="text-[10px] text-slate-400 truncate">
+        <span className="text-[10px] text-slate-400 truncate font-sans">
           Explore codebase and review details
         </span>
       </a>
@@ -76,18 +76,18 @@ const LinkPreview = ({ url }) => {
         href={url}
         target="_blank"
         rel="noopener noreferrer"
-        className="mt-2 flex flex-col p-3 rounded-xl bg-gradient-to-r from-purple-950/20 to-orange-950/20 border border-orange-500/20 hover:border-orange-500/40 transition-all text-left"
+        className="mt-2.5 flex flex-col p-3.5 rounded-2xl bg-gradient-to-r from-purple-950/10 to-orange-950/10 border border-orange-500/20 hover:border-orange-500/40 hover:from-purple-950/20 hover:to-orange-950/20 transition-all text-left"
       >
-        <div className="flex items-center gap-2 mb-1.5 text-xs text-orange-400 font-semibold">
+        <div className="flex items-center gap-2 mb-1.5 text-xs text-orange-400 font-semibold font-outfit">
           <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
             <path d="M12 24c3.315 0 6-2.683 6-6V12c0-3.317-2.685-6-6-6-3.315 0-6 2.683-6 6v6c0 3.317 2.685 6 6 6zM6 6c0-3.317 2.685-6 6-6s6 2.683 6 6v6H6V6z" />
           </svg>
           Figma Design File
         </div>
-        <span className="text-sm font-medium text-white mb-0.5 truncate capitalize">
+        <span className="text-sm font-semibold text-white mb-0.5 truncate capitalize font-outfit">
           {decodeURIComponent(fileName)}
         </span>
-        <span className="text-[10px] text-slate-400 truncate">
+        <span className="text-[10px] text-slate-400 truncate font-sans">
           Shared design workspace & prototypes
         </span>
       </a>
@@ -562,40 +562,40 @@ const ChatRoom = ({ chat, currentUserId, cache, updateCache }) => {
           animation: scaleUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
         .custom-scrollbar::-webkit-scrollbar {
-          width: 6px;
+          width: 5px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
           background: transparent;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: #1e293b;
+          background: rgba(255, 255, 255, 0.08);
           border-radius: 9999px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: #334155;
+          background: rgba(99, 102, 241, 0.3);
         }
       `}</style>
 
       {/* Header */}
-      <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-950/80 shrink-0">
+      <div className="flex items-center justify-between px-6 py-4 border-b border-white/5 bg-slate-950/40 backdrop-blur-md shrink-0">
         <div className="flex items-center gap-3">
           {details.avatar ? (
             <img
               src={details.avatar}
               alt={details.title}
-              className={`w-10 h-10 object-cover ${details.isTeam ? 'rounded-xl' : 'rounded-full'}`}
+              className={`w-10 h-10 object-cover border border-white/10 ${details.isTeam ? 'rounded-xl' : 'rounded-2xl'}`}
             />
           ) : (
             <div
               className={`w-10 h-10 flex items-center justify-center font-bold text-xs bg-indigo-500/10 text-indigo-300 border border-indigo-500/10 ${
-                details.isTeam ? 'rounded-xl' : 'rounded-full'
+                details.isTeam ? 'rounded-xl' : 'rounded-2xl'
               }`}
             >
               {details.fallbackText}
             </div>
           )}
           <div>
-            <h3 className="text-sm font-bold text-white leading-tight">
+            <h3 className="text-sm font-cabinet font-black text-white leading-tight tracking-wide">
               {details.title}
             </h3>
             {!details.isTeam && details.partner ? (
@@ -605,7 +605,7 @@ const ChatRoom = ({ chat, currentUserId, cache, updateCache }) => {
                 className="mt-0.5 text-[10px]"
               />
             ) : (
-              <span className="text-[10px] text-slate-500 font-semibold">
+              <span className="text-[10px] text-slate-500 font-bold font-sans">
                 Team Room • {chat.participants?.length || 0} participants
               </span>
             )}
@@ -620,7 +620,7 @@ const ChatRoom = ({ chat, currentUserId, cache, updateCache }) => {
         className="flex-1 overflow-y-auto px-6 py-4 space-y-3 custom-scrollbar flex flex-col bg-slate-950/20"
       >
         {loadingOlder && (
-          <div className="flex justify-center p-2 text-[10px] font-bold text-indigo-400">
+          <div className="flex justify-center p-2 text-[10px] font-bold text-indigo-400 font-outfit">
             <div className="w-4 h-4 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin mr-1.5" />
             Loading historical messages...
           </div>
@@ -629,7 +629,7 @@ const ChatRoom = ({ chat, currentUserId, cache, updateCache }) => {
         {!loadingOlder && hasMore && (
           <button
             onClick={loadOlderMessages}
-            className="self-center text-[10px] font-bold tracking-wide text-indigo-400 hover:text-indigo-300 bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-full transition-all mb-4"
+            className="self-center text-[10px] font-bold tracking-wider uppercase text-indigo-400 hover:text-indigo-300 bg-slate-950/80 border border-white/5 px-4 py-2 rounded-full transition-all mb-4 hover:border-indigo-500/30 hover:shadow-lg hover:shadow-indigo-500/10"
           >
             Load older messages
           </button>
@@ -649,10 +649,10 @@ const ChatRoom = ({ chat, currentUserId, cache, updateCache }) => {
                   <img
                     src={msg.sender?.avatar?.secureUrl || msg.sender.avatar}
                     alt={msg.sender.name || 'User'}
-                    className="w-8 h-8 rounded-full object-cover border border-slate-800 shadow-sm"
+                    className="w-8 h-8 rounded-xl object-cover border border-white/10 shadow-sm"
                   />
                 ) : (
-                  <div className="w-8 h-8 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 flex items-center justify-center text-xs font-bold shadow-sm">
+                  <div className="w-8 h-8 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 flex items-center justify-center text-xs font-bold shadow-sm font-outfit">
                     {(msg.sender?.name || 'U').charAt(0).toUpperCase()}
                   </div>
                 )}
@@ -662,17 +662,17 @@ const ChatRoom = ({ chat, currentUserId, cache, updateCache }) => {
               <div className={`flex flex-col max-w-full ${isMine ? 'items-end' : 'items-start'}`}>
                 {/* Sender Name if Team Chat & not mine */}
                 {!isMine && chat.isTeamChat && (
-                  <span className="text-[10px] text-slate-500 font-semibold mb-1 ml-2">
+                  <span className="text-[10px] text-slate-500 font-semibold mb-1 ml-2 font-sans">
                     {msg.sender?.name}
                   </span>
                 )}
 
                 {/* Message Bubble */}
                 <div
-                  className={`px-4 py-2.5 rounded-2xl text-sm leading-relaxed border shadow-sm ${
+                  className={`px-4 py-2.5 rounded-2xl text-sm leading-relaxed border shadow-sm select-text ${
                     isMine
-                      ? 'bg-indigo-600 border-indigo-500 text-white rounded-tr-none'
-                      : 'bg-slate-900 border-slate-800 text-slate-100 rounded-tl-none'
+                      ? 'bg-gradient-to-tr from-indigo-600 to-violet-600 border-indigo-500/30 text-white rounded-tr-none shadow-md shadow-indigo-600/10'
+                      : 'bg-slate-900/60 backdrop-blur-sm border-white/5 text-slate-100 rounded-tl-none shadow-inner'
                   }`}
                 >
                   {msg.content && renderMessageContent(msg.content)}
@@ -686,12 +686,12 @@ const ChatRoom = ({ chat, currentUserId, cache, updateCache }) => {
                         {att.type === 'image' ? (
                           <div
                             onClick={() => setPreviewImage({ url: fileUrl, name: fileName })}
-                            className="cursor-pointer overflow-hidden rounded-lg border border-white/10 hover:border-indigo-500/30 transition-all mt-1"
+                            className="cursor-pointer overflow-hidden rounded-xl border border-white/10 hover:border-indigo-500/30 transition-all mt-1"
                           >
                             <img
                               src={fileUrl}
                               alt={fileName}
-                              className="max-w-xs max-h-48 rounded-lg object-cover hover:scale-[1.02] transition-transform duration-200"
+                              className="max-w-xs max-h-48 rounded-xl object-cover hover:scale-[1.02] transition-transform duration-200"
                             />
                           </div>
                         ) : (
@@ -699,12 +699,12 @@ const ChatRoom = ({ chat, currentUserId, cache, updateCache }) => {
                             href={fileUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-2 p-2 rounded bg-black/20 text-xs font-medium hover:bg-black/30 transition-all text-slate-200"
+                            className="flex items-center gap-2.5 p-3 rounded-2xl bg-slate-950/40 border border-white/5 text-xs font-medium hover:bg-slate-950 transition-all text-slate-200 mt-2 hover:border-indigo-500/20"
                           >
                             <svg className="w-4 h-4 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
-                            <span className="truncate flex-1 max-w-[160px]">{fileName}</span>
+                            <span className="truncate flex-1 max-w-[160px] font-sans">{fileName}</span>
                           </a>
                         )}
                       </div>
@@ -719,7 +719,7 @@ const ChatRoom = ({ chat, currentUserId, cache, updateCache }) => {
 
                 {/* Meta information row (time, read receipt) */}
                 <div className="flex items-center gap-1.5 mt-1 px-1">
-                  <span className="text-[9px] text-slate-500 font-medium">
+                  <span className="text-[9px] text-slate-500 font-semibold font-sans">
                     {new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </span>
                   
@@ -732,12 +732,12 @@ const ChatRoom = ({ chat, currentUserId, cache, updateCache }) => {
 
         {/* Typing indicator */}
         {Object.keys(typingUsers).length > 0 && (
-          <div className="flex items-center gap-2 text-xs text-slate-500 font-medium pl-2 italic self-start">
+          <div className="flex items-center gap-2.5 text-xs text-slate-400 font-medium pl-2 italic self-start font-sans">
             <span>{Object.values(typingUsers).join(', ')} is typing</span>
             <div className="flex gap-0.5">
-              <span className="w-1 h-1 bg-slate-500 rounded-full animate-bounce [animation-delay:-0.3s]" />
-              <span className="w-1 h-1 bg-slate-500 rounded-full animate-bounce [animation-delay:-0.15s]" />
-              <span className="w-1 h-1 bg-slate-500 rounded-full animate-bounce" />
+              <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full animate-bounce [animation-delay:-0.3s]" />
+              <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full animate-bounce [animation-delay:-0.15s]" />
+              <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full animate-bounce" />
             </div>
           </div>
         )}
@@ -748,7 +748,7 @@ const ChatRoom = ({ chat, currentUserId, cache, updateCache }) => {
       {/* Input bar */}
       <form
         onSubmit={handleSendMessage}
-        className="p-4 border-t border-slate-800 bg-slate-950/80 shrink-0"
+        className="p-4 border-t border-white/5 bg-slate-950/40 backdrop-blur-md shrink-0"
       >
         {/* Attachment preview list */}
         {attachments.length > 0 && (
@@ -756,9 +756,9 @@ const ChatRoom = ({ chat, currentUserId, cache, updateCache }) => {
             {attachments.map((att, idx) => (
               <div
                 key={idx}
-                className="flex items-center gap-2 bg-slate-900 border border-slate-800 px-3 py-1 rounded-xl text-xs text-white"
+                className="flex items-center gap-2 bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-xl text-xs text-white"
               >
-                <span className="truncate max-w-[150px] font-medium">{att.name}</span>
+                <span className="truncate max-w-[150px] font-medium font-sans">{att.name}</span>
                 <button
                   type="button"
                   onClick={() => removeAttachment(idx)}
@@ -773,7 +773,7 @@ const ChatRoom = ({ chat, currentUserId, cache, updateCache }) => {
 
         {/* Upload Progress Display */}
         {isUploading && uploadProgress !== null && (
-          <div className="flex items-center gap-2 text-xs text-indigo-400 font-semibold px-2 py-1 bg-indigo-500/10 border border-indigo-500/10 rounded-xl mb-3 animate-pulse">
+          <div className="flex items-center gap-2 text-xs text-indigo-400 font-semibold px-3 py-1.5 bg-indigo-500/10 border border-indigo-500/10 rounded-xl mb-3 animate-pulse font-sans">
             <div className="w-3 h-3 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin shrink-0" />
             <span>Uploading attachment: {uploadProgress}%</span>
           </div>
@@ -782,7 +782,7 @@ const ChatRoom = ({ chat, currentUserId, cache, updateCache }) => {
         {/* Input Controls */}
         <div className="flex items-center gap-3">
           {/* File upload button */}
-          <label className="shrink-0 flex items-center justify-center w-10 h-10 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:border-slate-700 cursor-pointer transition-all">
+          <label className="shrink-0 flex items-center justify-center w-11 h-11 rounded-xl bg-slate-900/60 border border-white/5 text-slate-400 hover:text-white hover:border-indigo-500/20 cursor-pointer transition-all">
             <input
               type="file"
               onChange={handleAttachmentUpload}
@@ -804,14 +804,14 @@ const ChatRoom = ({ chat, currentUserId, cache, updateCache }) => {
             value={text}
             onChange={handleTextChange}
             placeholder="Type your message, paste Figma or GitHub link..."
-            className="flex-1 min-w-0 bg-slate-900 border border-slate-800 focus:border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none placeholder-slate-500 transition-all font-medium"
+            className="flex-1 min-w-0 bg-slate-900/60 border border-white/5 focus:border-indigo-500/30 rounded-xl px-4.5 py-3 text-sm text-white focus:outline-none placeholder-slate-500 transition-all font-medium premium-input"
           />
 
           {/* Send Button */}
           <button
             type="submit"
             disabled={!text.trim() && attachments.length === 0}
-            className="shrink-0 w-10 h-10 flex items-center justify-center rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white disabled:bg-slate-800 disabled:text-slate-500 disabled:border-transparent transition-all shadow-md shadow-indigo-600/10"
+            className="shrink-0 w-11 h-11 flex items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white disabled:from-slate-900 disabled:to-slate-900 disabled:text-slate-600 disabled:border-transparent transition-all shadow-md shadow-indigo-600/10 cursor-pointer"
           >
             <svg className="w-5 h-5 transform rotate-90" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />

@@ -18,6 +18,8 @@ import githubRoutes from './routes/github.js';
 import swipeRoutes from './routes/swipes.js';
 import teamRoutes from './routes/teams.js';
 import chatRoutes from './routes/chats.js';
+import notificationRoutes from './routes/notifications.js';
+import adminRoutes from './routes/admin.js';
 
 // Initialize database connection
 connectDB();
@@ -25,10 +27,16 @@ connectDB();
 const app = express();
 const server = http.createServer(app);
 
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  'http://localhost:5173',
+  'http://localhost:5174',
+].filter(Boolean);
+
 // Configure Socket.io
 const io = new Server(server, {
   cors: {
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    origin: allowedOrigins,
     methods: ['GET', 'POST'],
     credentials: true,
   },
@@ -40,7 +48,13 @@ initSocket(io);
 
 // Express Middleware
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin) || origin.startsWith('http://localhost:')) {
+      return callback(null, true);
+    }
+    return callback(new Error('Not allowed by CORS'));
+  },
   credentials: true,
 }));
 app.use(express.json());
@@ -68,6 +82,8 @@ app.use('/api/github', githubRoutes);
 app.use('/api/swipes', swipeRoutes);
 app.use('/api/teams', teamRoutes);
 app.use('/api/chats', chatRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Basic Route for testing
 app.get('/api/health', (req, res) => {
