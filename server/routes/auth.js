@@ -12,6 +12,14 @@ import { isAuth } from '../middleware/auth.js';
 
 const router = express.Router();
 
+const getClientUrl = () => {
+  let url = process.env.CLIENT_URL || '';
+  if (url && !url.startsWith('http://') && !url.startsWith('https://')) {
+    url = `https://${url}`;
+  }
+  return url.replace(/\/$/, '');
+};
+
 // Local Auth
 router.post('/register', register);
 router.post('/login', login);
@@ -27,7 +35,9 @@ router.get(
 
 router.get(
   '/google/callback',
-  passport.authenticate('google', { session: false, failureRedirect: '/login' }),
+  (req, res, next) => {
+    passport.authenticate('google', { session: false, failureRedirect: `${getClientUrl()}/login?error=auth_failed` })(req, res, next);
+  },
   oauthCallback
 );
 
@@ -39,7 +49,9 @@ router.get(
 
 router.get(
   '/github/callback',
-  passport.authenticate('github', { session: false, failureRedirect: '/login' }),
+  (req, res, next) => {
+    passport.authenticate('github', { session: false, failureRedirect: `${getClientUrl()}/login?error=auth_failed` })(req, res, next);
+  },
   oauthCallback
 );
 

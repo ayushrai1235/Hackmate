@@ -139,12 +139,18 @@ export const getMe = async (req, res) => {
 // @route   GET /api/auth/google/callback OR /api/auth/github/callback
 // @access  Public
 export const oauthCallback = (req, res) => {
+  let clientUrl = process.env.CLIENT_URL;
+  if (!clientUrl.startsWith('http://') && !clientUrl.startsWith('https://')) {
+    clientUrl = `https://${clientUrl}`;
+  }
+  clientUrl = clientUrl.replace(/\/$/, '');
+
   if (!req.user) {
-    return res.redirect(`${process.env.CLIENT_URL}/login?error=auth_failed`);
+    return res.redirect(`${clientUrl}/login?error=auth_failed`);
   }
 
   if (req.user.isBanned) {
-    return res.redirect(`${process.env.CLIENT_URL}/login?error=user_banned`);
+    return res.redirect(`${clientUrl}/login?error=user_banned`);
   }
 
   // Generate tokens
@@ -158,5 +164,5 @@ export const oauthCallback = (req, res) => {
   // Passing via cookie is safer than URL, but since frontend expects it, let's pass via query string temporarily 
   // or use a short-lived cookie that frontend can read and clear.
   // Let's pass it via URL query string for simplicity in OAuth flow.
-  res.redirect(`${process.env.CLIENT_URL}${redirectUrl}?token=${accessToken}`);
+  res.redirect(`${clientUrl}${redirectUrl}?token=${accessToken}`);
 };
