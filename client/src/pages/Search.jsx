@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import FilterPanel from '../components/FilterPanel';
@@ -154,37 +155,40 @@ const Search = () => {
           </div>
 
           {/* Mobile Filter Drawer */}
-          <AnimatePresence>
-            {showFiltersMobile && (
-              <>
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"
-                  onClick={() => setShowFiltersMobile(false)}
-                />
-                <motion.div
-                  initial={{ x: '-100%' }}
-                  animate={{ x: 0 }}
-                  exit={{ x: '-100%' }}
-                  transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-                  className="fixed top-0 left-0 h-full w-[280px] bg-[#0f172a] border-r border-white/10 shadow-2xl z-50 flex flex-col p-5 lg:hidden overflow-y-auto hw-accelerate"
-                >
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="font-cabinet text-xl font-black tracking-tight text-white">Filters</span>
-                    <button 
-                      onClick={() => setShowFiltersMobile(false)}
-                      className="p-2 text-slate-400 hover:text-white rounded-full bg-white/5"
-                    >
-                      <FaTimes />
-                    </button>
-                  </div>
-                  <FilterPanel onFilterChange={handleFilterChange} initialFilters={filters} />
-                </motion.div>
-              </>
-            )}
-          </AnimatePresence>
+          {createPortal(
+            <AnimatePresence>
+              {showFiltersMobile && (
+                <>
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] lg:hidden"
+                    onClick={() => setShowFiltersMobile(false)}
+                  />
+                  <motion.div
+                    initial={{ x: '-100%' }}
+                    animate={{ x: 0 }}
+                    exit={{ x: '-100%' }}
+                    transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                    className="fixed top-0 left-0 h-full w-[280px] bg-[#0f172a] border-r border-white/10 shadow-2xl z-[100] flex flex-col p-5 lg:hidden overflow-y-auto hw-accelerate"
+                  >
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="font-cabinet text-xl font-black tracking-tight text-white">Filters</span>
+                      <button 
+                        onClick={() => setShowFiltersMobile(false)}
+                        className="p-2 text-slate-400 hover:text-white rounded-full bg-white/5"
+                      >
+                        <FaTimes />
+                      </button>
+                    </div>
+                    <FilterPanel onFilterChange={handleFilterChange} initialFilters={filters} />
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>,
+            document.body
+          )}
 
           {/* Results Column */}
           <div className="flex-1 w-full space-y-6">
@@ -214,33 +218,35 @@ const Search = () => {
                     >
                       <div className="space-y-4">
                         {/* Header: Avatar, Info, GitHub Score */}
-                        <div className="flex items-start justify-between gap-3">
-                          <div className="flex items-center gap-3">
+                        <div className="flex flex-wrap items-start justify-between gap-3">
+                          <div className="flex items-center gap-3 min-w-0 flex-1">
                             {user.avatar?.secureUrl ? (
                               <img 
                                 src={user.avatar.secureUrl} 
                                 alt={user.name} 
-                                className="w-12 h-12 rounded-xl object-cover border border-slate-800 group-hover:scale-105 transition-transform" 
+                                className="w-12 h-12 rounded-xl object-cover border border-slate-800 group-hover:scale-105 transition-transform shrink-0" 
                               />
                             ) : (
-                              <div className="w-12 h-12 rounded-xl bg-slate-850 border border-slate-800 flex items-center justify-center font-bold text-slate-400 text-lg">
+                              <div className="w-12 h-12 rounded-xl bg-slate-850 border border-slate-800 flex items-center justify-center font-bold text-slate-400 text-lg shrink-0">
                                 {user.name.charAt(0).toUpperCase()}
                               </div>
                             )}
-                            <div>
-                              <h3 className="font-bold text-white text-sm hover:text-emerald-400 transition-colors cursor-pointer" onClick={() => setSelectedUser(user)}>
+                            <div className="min-w-0">
+                              <h3 className="font-bold text-white text-sm hover:text-emerald-400 transition-colors cursor-pointer truncate" onClick={() => setSelectedUser(user)}>
                                 {user.name}
                               </h3>
-                              <p className="text-xxs font-medium text-slate-500 flex items-center gap-1 mt-0.5">
-                                <span className="text-slate-400">{user.role}</span>
+                              <p className="text-xxs font-medium text-slate-500 flex items-center gap-1 mt-0.5 truncate">
+                                <span className="text-slate-400 truncate">{user.role}</span>
                                 <span>•</span>
-                                <span>{user.experienceLevel}</span>
+                                <span className="truncate">{user.experienceLevel}</span>
                               </p>
                             </div>
                           </div>
 
                           {user.githubUsername && (
-                            <GitHubBadge score={user.githubScore} />
+                            <div className="shrink-0">
+                              <GitHubBadge score={user.githubScore} />
+                            </div>
                           )}
                         </div>
 

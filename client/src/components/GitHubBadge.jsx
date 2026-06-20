@@ -6,7 +6,7 @@ const GitHubBadge = ({ score, className = '' }) => {
 
   return (
     <div
-      className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/80 border border-emerald-500/30 text-emerald-400 text-xs font-bold shadow-lg shadow-emerald-950/20 backdrop-blur-sm group hover:border-emerald-400/50 hover:shadow-emerald-500/10 transition-all duration-300 ${className}`}
+      className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/80 border border-emerald-500/30 text-emerald-400 text-xs font-bold shadow-lg shadow-emerald-950/20 backdrop-blur-sm group hover:border-emerald-400/50 hover:shadow-emerald-500/10 transition-all duration-300 whitespace-nowrap shrink-0 ${className}`}
     >
       <FaGithub className="text-slate-200 group-hover:rotate-12 transition-transform duration-300" />
       <span className="text-slate-300">GitHub Verified</span>

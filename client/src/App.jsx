@@ -43,7 +43,6 @@ const PageWrapper = ({ children }) => {
       exit="out"
       variants={pageVariants}
       transition={pageTransition}
-      className="hw-accelerate"
       style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}
     >
       {children}
