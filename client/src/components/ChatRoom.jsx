@@ -669,10 +669,10 @@ const ChatRoom = ({ chat, currentUserId, cache, updateCache }) => {
 
                 {/* Message Bubble */}
                 <div
-                  className={`px-4 py-2.5 rounded-2xl text-sm leading-relaxed border shadow-sm select-text ${
+                  className={`px-4 py-2.5 rounded-2xl text-sm leading-relaxed shadow-sm select-text relative ${
                     isMine
-                      ? 'bg-gradient-to-tr from-indigo-600 to-violet-600 border-indigo-500/30 text-white rounded-tr-none shadow-md shadow-indigo-600/10'
-                      : 'bg-slate-900/60 backdrop-blur-sm border-white/5 text-slate-100 rounded-tl-none shadow-inner'
+                      ? 'bg-indigo-600 text-white rounded-tr-none shadow-md shadow-indigo-600/20'
+                      : 'bg-slate-800 text-slate-100 rounded-tl-none shadow-md'
                   }`}
                 >
                   {msg.content && renderMessageContent(msg.content)}
@@ -685,14 +685,25 @@ const ChatRoom = ({ chat, currentUserId, cache, updateCache }) => {
                       <div key={idx} className="mt-2 pt-2 border-t border-white/10">
                         {att.type === 'image' ? (
                           <div
-                            onClick={() => setPreviewImage({ url: fileUrl, name: fileName })}
-                            className="cursor-pointer overflow-hidden rounded-xl border border-white/10 hover:border-indigo-500/30 transition-all mt-1"
+                            className="relative group overflow-hidden rounded-xl border border-white/10 transition-all mt-1 inline-block"
                           >
                             <img
+                              onClick={() => setPreviewImage({ url: fileUrl, name: fileName })}
                               src={fileUrl}
                               alt={fileName}
-                              className="max-w-xs max-h-48 rounded-xl object-cover hover:scale-[1.02] transition-transform duration-200"
+                              className="max-w-xs max-h-48 rounded-xl object-cover hover:scale-[1.02] transition-transform duration-200 cursor-pointer"
                             />
+                            <a
+                              href={fileUrl}
+                              download={fileName}
+                              onClick={(e) => e.stopPropagation()}
+                              className="absolute top-2 right-2 p-2 bg-black/50 hover:bg-black/80 rounded-full text-white opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-sm z-10"
+                              title="Download Image"
+                            >
+                              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                              </svg>
+                            </a>
                           </div>
                         ) : (
                           <a
@@ -748,7 +759,7 @@ const ChatRoom = ({ chat, currentUserId, cache, updateCache }) => {
       {/* Input bar */}
       <form
         onSubmit={handleSendMessage}
-        className="p-4 border-t border-white/5 bg-slate-950/40 backdrop-blur-md shrink-0"
+        className="p-4 border-t border-white/5 bg-slate-950/40 backdrop-blur-md shrink-0 pb-[max(1rem,env(safe-area-inset-bottom))]"
       >
         {/* Attachment preview list */}
         {attachments.length > 0 && (

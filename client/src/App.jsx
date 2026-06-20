@@ -1,9 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { SocketProvider } from './context/SocketContext';
 import { NotificationProvider } from './context/NotificationContext';
 import ProtectedRoute from './components/ProtectedRoute';
+import { AnimatePresence, motion } from 'framer-motion';
 
 // Pages
 import Login from './pages/Login';
@@ -22,44 +23,82 @@ import Landing from './pages/Landing';
 import Search from './pages/Search';
 import Admin from './pages/Admin';
 
+const pageVariants = {
+  initial: { opacity: 0, y: 10 },
+  in: { opacity: 1, y: 0 },
+  out: { opacity: 0, y: -10 }
+};
+
+const pageTransition = {
+  type: 'tween',
+  ease: 'easeInOut',
+  duration: 0.2
+};
+
+const PageWrapper = ({ children }) => {
+  return (
+    <motion.div
+      initial="initial"
+      animate="in"
+      exit="out"
+      variants={pageVariants}
+      transition={pageTransition}
+      className="hw-accelerate"
+      style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+const AnimatedRoutes = () => {
+  const location = useLocation();
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        {/* Public Routes */}
+        <Route path="/" element={<PageWrapper><Landing /></PageWrapper>} />
+        <Route path="/login" element={<PageWrapper><Login /></PageWrapper>} />
+        <Route path="/register" element={<PageWrapper><Register /></PageWrapper>} />
+
+        {/* Protected routes requiring onboarding */}
+        <Route element={<ProtectedRoute requireOnboarding={true} />}>
+          <Route path="/discover" element={<PageWrapper><Discover /></PageWrapper>} />
+          <Route path="/search" element={<PageWrapper><Search /></PageWrapper>} />
+          <Route path="/profile" element={<PageWrapper><Profile /></PageWrapper>} />
+          <Route path="/profile/:id" element={<PageWrapper><PublicProfile /></PageWrapper>} />
+          <Route path="/interested" element={<PageWrapper><InterestedInYou /></PageWrapper>} />
+          <Route path="/teams" element={<PageWrapper><Teams /></PageWrapper>} />
+          <Route path="/teams/create" element={<PageWrapper><CreateTeam /></PageWrapper>} />
+          <Route path="/teams/:id" element={<PageWrapper><TeamDetail /></PageWrapper>} />
+          <Route path="/teams/:id/edit" element={<PageWrapper><CreateTeam isEdit={true} /></PageWrapper>} />
+          <Route path="/chat" element={<PageWrapper><Chat /></PageWrapper>} />
+          <Route path="/notifications" element={<PageWrapper><Notifications /></PageWrapper>} />
+        </Route>
+
+        {/* Protected admin routes */}
+        <Route element={<ProtectedRoute requireOnboarding={true} requireAdmin={true} />}>
+          <Route path="/admin" element={<PageWrapper><Admin /></PageWrapper>} />
+        </Route>
+
+        {/* Protected route NOT requiring onboarding (for the onboarding flow itself) */}
+        <Route element={<ProtectedRoute requireOnboarding={false} />}>
+          <Route path="/onboarding" element={<PageWrapper><Onboarding /></PageWrapper>} />
+        </Route>
+      </Routes>
+    </AnimatePresence>
+  );
+};
+
 function App() {
   return (
     <AuthProvider>
       <SocketProvider>
         <NotificationProvider>
           <Router>
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/" element={<Landing />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-
-            {/* Protected routes requiring onboarding */}
-            <Route element={<ProtectedRoute requireOnboarding={true} />}>
-              <Route path="/discover" element={<Discover />} />
-              <Route path="/search" element={<Search />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/profile/:id" element={<PublicProfile />} />
-              <Route path="/interested" element={<InterestedInYou />} />
-              <Route path="/teams" element={<Teams />} />
-              <Route path="/teams/create" element={<CreateTeam />} />
-              <Route path="/teams/:id" element={<TeamDetail />} />
-              <Route path="/teams/:id/edit" element={<CreateTeam isEdit={true} />} />
-              <Route path="/chat" element={<Chat />} />
-              <Route path="/notifications" element={<Notifications />} />
-            </Route>
-
-            {/* Protected admin routes */}
-            <Route element={<ProtectedRoute requireOnboarding={true} requireAdmin={true} />}>
-              <Route path="/admin" element={<Admin />} />
-            </Route>
-
-            {/* Protected route NOT requiring onboarding (for the onboarding flow itself) */}
-            <Route element={<ProtectedRoute requireOnboarding={false} />}>
-              <Route path="/onboarding" element={<Onboarding />} />
-            </Route>
-          </Routes>
-        </Router>
+            <AnimatedRoutes />
+          </Router>
         </NotificationProvider>
       </SocketProvider>
     </AuthProvider>

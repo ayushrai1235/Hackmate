@@ -66,6 +66,30 @@ const Chat = () => {
           const isFromMe = message.sender?._id === currentUser?._id;
           if (!isViewingThisChat && !isFromMe) {
             chat.unreadCount = (chat.unreadCount || 0) + 1;
+            
+            // Play notification sound
+            try {
+              const AudioContext = window.AudioContext || window.webkitAudioContext;
+              if (AudioContext) {
+                const ctx = new AudioContext();
+                if (ctx.state !== 'suspended') {
+                  const osc = ctx.createOscillator();
+                  const gainNode = ctx.createGain();
+                  osc.type = 'sine';
+                  osc.frequency.setValueAtTime(880, ctx.currentTime);
+                  osc.frequency.exponentialRampToValueAtTime(1760, ctx.currentTime + 0.1);
+                  gainNode.gain.setValueAtTime(0, ctx.currentTime);
+                  gainNode.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.05);
+                  gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+                  osc.connect(gainNode);
+                  gainNode.connect(ctx.destination);
+                  osc.start();
+                  osc.stop(ctx.currentTime + 0.3);
+                }
+              }
+            } catch (err) {
+              console.log("Audio play failed", err);
+            }
           }
 
           // Remove from old position and push to top of the list
